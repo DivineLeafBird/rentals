@@ -9,20 +9,18 @@ use App\Models\User;
 
 class AdminController extends Controller
 {
-    public function logout()
+    public function admlogout()
     {
-        $redirectTo = '/';
-
-        if (Auth::user()->usertype === 1) {
-            $redirectTo = '/'; 
-        } elseif (Auth::user()->usertype === 0) {
-            $redirectTo = '/'; 
-        }
-
-        Auth::logout();
-
-        return Redirect::to($redirectTo);
-     
+        
+            $redirectTo = '/login';
+            
+            
+    
+            Auth::logout();
+    
+            return Redirect::to($redirectTo);
+        
+        
     }
 
 

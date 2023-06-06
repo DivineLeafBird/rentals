@@ -33,6 +33,8 @@ class HomeController extends Controller
 
     public function logout()
     {
+
+        
         Auth::logout();
         
         return Redirect::to('/');
@@ -50,8 +52,34 @@ class HomeController extends Controller
         return view('home.category');
     }
 
+    public function blog()
+    {
+        return view('home.blog');
+    }
 
+    public function blogstory()
+    {
+        return view('home.blog-story');
+    }
 
+    public function community()
+    {
+        return view('home.community');
+    }
 
+    public function about()
+    {
+        return view('home.about');
+    }
+
+    public function contact()
+    {
+        return view('home.contact');
+    }
+
+    public function communityreplies()
+    {
+        return view('home.community-replies');
+    }
 
 }

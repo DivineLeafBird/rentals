@@ -31,70 +31,42 @@
     <!-- Header start -->
         @include('home.header')
     <!-- End of Header Section -->
-    
-    <!-- Slider Section -->
-        @include('home.slider')
-    <!-- End of slider section -->
+
+    {{-- Community section --}}
+
+    <section class="community-comments">
+        <div class="comments-replies">
+
+            <h4>Comments</h4>
+
+        </div>
 
 
-    <!-- Top Selection section -->
 
-            @include('home.top-selection')
 
-    <!-- End of top Selection -->
-        <hr style="opacity:0.1;">
 
-        <!-- Home view section  -->
-        @include('home.home-view')
 
-    <!-- End of home view section -->
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
     <hr style="opacity:0.1;">
-
-    <!-- Explore Section -->
-
-        @include('home.explore')
-    <!-- End of explore section -->
-
-
-            <hr style="opacity:0.1;">
-
-
-        <!-- Reviews section -->
-
-            @include('home.reviews')
-
-    <!-- End of reviews section -->
-        <hr style="opacity:0.1;">
-    <!-- Partnership section -->
-        @include('home.partnership')
-
-    <!-- End of Partnership section -->
-
-        <hr style="opacity:0.1;">
 
     <!-- Footer start -->
 
         @include('home.footer')
 
     <!-- Footer End -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   
-
     <script>
           var logoutTimer;
 
@@ -112,11 +84,11 @@
             startLogoutTimer();
             }
 
-// Calls the resetLogoutTimer() function whenever the user performs any activity, such as clicking a button or making an AJAX request.
+        // Calls the resetLogoutTimer() function whenever the user performs any activity, such as clicking a button or making an AJAX request.
 
-document.addEventListener('click', function() {
-  resetLogoutTimer();
-});
+        document.addEventListener('click', function() {
+        resetLogoutTimer();
+        });
         
         // Calls the resetLogoutTimer() function whenever the user performs any activity
         document.addEventListener('click', function() {
@@ -126,7 +98,6 @@ document.addEventListener('click', function() {
         // Starts the logout timer initially when the page loads
         startLogoutTimer();
     </script>
-  
 
     <script src="home/main.js"> </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" 

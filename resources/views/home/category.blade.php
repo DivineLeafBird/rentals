@@ -451,7 +451,7 @@
           var logoutTimer;
 
             function startLogoutTimer() {
-            var timeoutDuration = 30 * 60 * 1000; // Set  timeout 
+            var timeoutDuration = 15 * 60 * 1000; // Set  timeout 
 
             logoutTimer = setTimeout(function() {
                 // Perform AJAX logout request or redirect to the logout endpoint

@@ -32,11 +32,17 @@ Route::middleware([
 Route::get('/redirect',[HomeController::class,'redirect']);
 Route::get('/logout',[HomeController::class,'logout']);
 Route::get('/category',[HomeController::class,'category']);
+Route::get('/blog',[HomeController::class,'blog']);
+Route::get('/community',[HomeController::class,'community']);
+Route::get('/about',[HomeController::class,'about']);
+Route::get('/contact',[HomeController::class,'contact']);
 
+Route::get('/blogstory',[HomeController::class,'blogstory']);
+Route::get('/communityreplies',[HomeController::class,'communityreplies']);
 
 
 
 // adminpage routes
 
-Route::get('/logout',[AdminController::class,'logout']);
+Route::get('/admlogout',[AdminController::class,'admlogout']);
 

@@ -1376,7 +1376,7 @@ footer{
 .category-opts-btn{
     display: flex;
     align-items: center;
-    padding:5px;
+    padding:8px;
     background-color: var(--white-color);
     border-radius: 5px;
     border: 2px solid var(--blue-color);
@@ -1452,4 +1452,109 @@ footer{
 .category-pagination #active{
     color: var(--white-color);
     background-color: var(--blue-color);
+}
+/* Community */
+.community{
+    margin-left: 50px;
+    font-family: 'Roboto',sans-serif;
+    font-style: normal;
+}
+
+
+.community-options{
+    display: flex;
+    align-items: center;
+    margin-top: 100px;
+    margin-bottom: 40px;
+    gap: 50px;
+}
+
+.community-opts-btn{
+    display: flex;
+    align-items: center;
+    padding:8px;
+    background-color: gainsboro;
+    border-radius: 5px;
+    border: none;
+    color: gray;
+}
+.community-options #active {
+    background-color:#2c64f5;
+     color: #fff;
+}
+.community-options button:hover{
+    background-color: var(--blue-color);
+    color: var(--white-color);
+}
+
+.community-post-btn {
+    display: flex;
+    align-items: center;
+    transform: translateX(450px);
+    padding:8px;
+    background-color: var(--blue-color);
+    border-radius: 5px;
+    border: none;
+    color: var(--white-color);
+}
+
+
+
+.community-posts-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin-top: 20px;
+}
+.community-post-card{
+    font-family: 'Roboto',sans-serif;
+    font-style: normal;
+    box-shadow: 0px 1px 1px 0px var(--blue-color);
+    border-radius: 15px;
+    width: 100%;
+    max-width: 30%;
+    height: 100%;
+    padding: 10px;
+}
+.community-post-card .card-header  img{  
+    object-fit: cover;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.community-post-card .card-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.community-post-card .card-msg {
+    margin: 8px 0;
+}
+
+
+.card-stats{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    color:rgb(168, 163, 163);
+}
+.card-stats a {
+    text-decoration: none;
+    color:rgb(168, 163, 163);
+}
+
+
+/* Community Comments  */
+.community-comments{
+    font-family: 'Roboto',sans-serif;
+    font-style: normal;
+
+}
+.comments-replies{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+    margin-bottom: 40px;
 }

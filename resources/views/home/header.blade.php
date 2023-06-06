@@ -44,10 +44,10 @@
                     <hr>
                 <a href="/">Home</a>    
                 <a href="{{ url('category') }}">Category</a>
-                <a href="#">Blog</a>
-                <a href="#">Community</a>
-                <a href="#">About</a>
-                <a href="#">Contact</a>
+                <a href="{{ url('blog') }}">Blog</a>
+                <a href="{{ url('community') }}">Community</a>
+                <a href="{{ url('about') }}">About</a>
+                <a href="{{ url('contact') }}">Contact</a>
 
                 <hr>
 
@@ -74,15 +74,15 @@
                 <li class="logo"><a href="/"><img src="images/logo.svg" alt="logo"></a></li>
                 <li class="active"><a href="/">Home</a></li>
                 <li><a href="{{ url('category') }}">Category</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Community</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="{{ url('blog') }}">Blog</a></li>
+                <li><a href="{{ url('community') }}">Community</a></li>
+                <li><a href="{{ url('about') }}">About</a></li>
+                <li><a href="{{ url('contact') }}">Contact</a></li>
             </ul>
             <div class="nav-right">
                 <div class="search-container">
                     <form action="#">
-                      <input type="text" placeholder="Search..." >
+                      <input type="text" placeholder="Search..." name="q">
                       <button type="submit"><i class="bi bi-search btn icons" ></i></button>
                     </form>
                 </div>

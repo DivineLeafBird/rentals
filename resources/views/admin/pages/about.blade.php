@@ -33,7 +33,23 @@
       <!-- partial -->
             @include('admin.header')
         <!-- partial -->
-            @include('admin.body')
+        <div class="main-panel">
+            <div class="content-wrapper">  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- container-scroller -->
 
 

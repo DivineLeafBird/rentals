@@ -43,6 +43,13 @@ Route::get('/communityreplies',[HomeController::class,'communityreplies']);
 
 
 // adminpage routes
-
+Route::get('/redirect',[AdminController::class,'redirect']);
 Route::get('/admlogout',[AdminController::class,'admlogout']);
+Route::get('/view_home',[AdminController::class,'view_home']);
+Route::get('/view_category',[AdminController::class,'view_category']);
+Route::get('/view_blog',[AdminController::class,'view_blog']);
+Route::get('/view_community',[AdminController::class,'view_community']);
+Route::get('/view_about',[AdminController::class,'view_about']);
+Route::get('/view_contact',[AdminController::class,'view_contact']);
+
 

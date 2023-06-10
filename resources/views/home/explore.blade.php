@@ -45,7 +45,7 @@
                 <p class="more-to-explore-content">Explore rental home insights and tips on
                     our blog for stress-free home hunting.</p>
                 <div >
-                   <button class="more-to-explore-btn"><a href="">Read now</a></button> 
+                   <button class="more-to-explore-btn"><a href="{{ url('blog') }}">Read now</a></button> 
                 </div>
 
             </div>

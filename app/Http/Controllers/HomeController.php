@@ -6,9 +6,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\User;
+use App\Models\Slider;
 
 class HomeController extends Controller
-{
+{   
+
+    public function index() 
+    {   
+        $slideshows = Slider::all();
+        return view('home.userpage',compact('slideshows'));
+    }
+
     public function redirect()
     {
         $usertype=Auth::user()->usertype;
@@ -19,17 +27,11 @@ class HomeController extends Controller
             }
         else
         {
-            return view('home.userpage');
+            $slideshows = Slider::all();
+            return view('home.userpage',compact('slideshows'));
         }
 
     }
-
-
-    public function index() 
-    {
-        return view('home.userpage');
-    }
-
 
     public function logout()
     {

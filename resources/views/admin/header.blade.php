@@ -16,47 +16,81 @@
           </li>
         </ul>
         <ul class="navbar-nav navbar-nav-right">
+
           <li class="nav-item dropdown d-none d-lg-block">
-            <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="#">+ Create New Project</a>
+            <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="#">+ Add New County</a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="createbuttonDropdown">
-              <h6 class="p-3 mb-0">Projects</h6>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-dark rounded-circle">
-                    <i class="mdi mdi-file-outline text-primary"></i>
-                  </div>
-                </div>
+              <form action="{{ url('/add_county') }}" method="POST">
+                @csrf
                 <div class="preview-item-content">
-                  <p class="preview-subject ellipsis mb-1">Software Development</p>
+                  <label style="padding: 8px;" for="county">County:</label>
+                  <input style="background: transparent; border:none; outline:none; color:#fff; padding:8px;" type="text"  name="county_name" id="county_name" required>
                 </div>
-              </a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-dark rounded-circle">
-                    <i class="mdi mdi-web text-info"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content">
-                  <p class="preview-subject ellipsis mb-1">UI Development</p>
-                </div>
-              </a>
+
+              <div class="preview-item-content">
+                <label style="padding: 8px;" for="Latitude">Latitude:</label>
+                <input style="background: transparent; border:none; outline:none; color:#fff; padding:8px;" type="text" name="county_latitude" id="county_latitude" required>
+              </div>
+
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-dark rounded-circle">
-                    <i class="mdi mdi-layers text-danger"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content">
-                  <p class="preview-subject ellipsis mb-1">Software Testing</p>
-                </div>
-              </a>
+
+              <div class="preview-item-content">
+                <label style="padding: 8px;" for="Longitude">Longitude:</label>
+                <input style="background: transparent; border:none; outline:none; color:#fff; padding:8px;" type="text" name="county_longitude" id="county_longitude" required>
+              </div>
+              
               <div class="dropdown-divider"></div>
-              <p class="p-3 mb-0 text-center">See all projects</p>
+
+              <button style="background: transparent; border:none; outline:none; color:rgb(38, 235, 38); transform:translateX(40px);" type="submit" class="p-3 mb-0 text-center"> Add County</button>
+              </form>
             </div>
           </li>
+
+                              {{--       region       --}}
+
+          <li class="nav-item dropdown d-none d-lg-block">
+            <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="#">+ Add New Region</a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="createbuttonDropdown">
+              <form action="{{ url('/add_region') }}" method="POST">
+                @csrf
+                <div class="preview-item-content">
+                  <label style="padding: 8px;" for="county">County:</label>
+                  <select name="county" style="background: transparent; border:none; outline:none; color:#fff; padding:16px;" required >
+                   
+                        <option  value=""> kilifi</option>
+                   
+                </select>
+                  
+                </div>
+                <div class="dropdown-divider"></div>
+
+                <div class="preview-item-content">
+                  <label style="padding: 8px;" for="region">Region:</label>
+                  <input style="background: transparent; border:none; outline:none; color:#fff; padding:8px;" type="text"  name="region_name" id="region_name" required>
+                </div>
+              <div class="dropdown-divider"></div>
+
+              <div class="preview-item-content">
+                <label style="padding: 8px;" for="Latitude">Latitude:</label>
+                <input style="background: transparent; border:none; outline:none; color:#fff; padding:8px;" type="text" name="region_latitude" id="region_latitude" required>
+              </div>
+
+              <div class="dropdown-divider"></div>
+
+              <div class="preview-item-content">
+                <label style="padding: 8px;" for="Longitude">Longitude:</label>
+                <input style="background: transparent; border:none; outline:none; color:#fff; padding:8px;" type="text"  name="region_longitude" id="region_longitude" required>
+              </div>
+              
+              <div class="dropdown-divider"></div>
+
+              <button type="submit"  style="background: transparent; border:none; outline:none; color:rgb(38, 235, 38); transform:translateX(40px);" class="p-3 mb-0 text-center"> Add Region</button>
+              </form>
+            </div>
+          </li>
+          
+
           <li class="nav-item nav-settings d-none d-lg-block">
             <a class="nav-link" href="#">
               <i class="mdi mdi-view-grid"></i>

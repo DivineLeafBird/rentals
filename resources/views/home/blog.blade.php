@@ -200,35 +200,45 @@
 
     <!-- Footer End -->
     <script>
-          var logoutTimer;
+        var logoutTimer;
 
-            function startLogoutTimer() {
-            var timeoutDuration = 15 * 60 * 1000; // Set  timeout 
+          function startLogoutTimer() {
+            var timeoutDuration = 30 * 60 * 1000; // Set timeout
 
             logoutTimer = setTimeout(function() {
-                // Perform AJAX logout request or redirect to the logout endpoint
-                window.location.href = '/logout';
+              // Perform AJAX logout request or redirect to the logout endpoint
+              window.location.href = '/logout';
             }, timeoutDuration);
-            }
+          }
 
-            function resetLogoutTimer() {
+          function resetLogoutTimer() {
             clearTimeout(logoutTimer);
             startLogoutTimer();
+          }
+
+          // Calls the resetLogoutTimer() function whenever the user performs any activity, such as clicking a button or making an AJAX request.
+          document.addEventListener('click', function() {
+            if (document.visibilityState === "visible") {
+              resetLogoutTimer();
             }
+          });
 
-        // Calls the resetLogoutTimer() function whenever the user performs any activity, such as clicking a button or making an AJAX request.
+          // Starts the logout timer initially when the page loads
+          if (document.visibilityState === "visible") {
+            startLogoutTimer();
+          }
 
-        document.addEventListener('click', function() {
-        resetLogoutTimer();
-        });
-        
-        // Calls the resetLogoutTimer() function whenever the user performs any activity
-        document.addEventListener('click', function() {
-        resetLogoutTimer();
-        });
-    
-        // Starts the logout timer initially when the page loads
-        startLogoutTimer();
+          // Listens for changes in the visibility state
+          document.addEventListener("visibilitychange", function() {
+            if (document.visibilityState === "visible") {
+              // Page is now active
+              startLogoutTimer();
+            } else {
+              // Page is not active
+              clearTimeout(logoutTimer);
+            }
+          });
+
     </script>
 
     <script src="home/main.js"> </script>

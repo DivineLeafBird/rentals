@@ -4,8 +4,8 @@
 
         <div class="footer-links">
             <h5>About Venpic</h5>
-            <p><a href="">About us</a></p>
-            <p><a href="">Blog</a></p>
+            <p><a href="{{ url('about') }}">About us</a></p>
+            <p><a href="{{ url('blog') }}">Blog</a></p>
             <p><a href="">Rewards</a></p>
             <p><a href="">Careers</a></p>
             <p><a href="">FAQs</a></p>

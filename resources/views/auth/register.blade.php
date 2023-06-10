@@ -1,7 +1,9 @@
 <x-guest-layout>
     <x-authentication-card>
         <x-slot name="logo">
-            <x-authentication-card-logo />
+            <img 
+            style="object-fit:cover; height: 80px; width: 80px;  border-radius: 50%; " 
+            src="images/logo-rd.png" alt="logo">
         </x-slot>
 
         <x-validation-errors class="mb-4" />
@@ -25,9 +27,11 @@
             </div>
 
             <div class="mt-4">
-                <x-label for="address" value="{{ __('Address') }}" />
-                <x-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" required autocomplete="username" />
+                <x-label for="county" value="{{ __('County') }}" />
+                <x-input id="county" class="block mt-1 w-full" type="text" name="county" :value="old('county')" required autocomplete="username" />
             </div>
+
+            
 
             <div class="mt-4">
                 <x-label for="password" value="{{ __('Password') }}" />

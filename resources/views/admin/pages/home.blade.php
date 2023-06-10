@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="admin/assets/css/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="admin/assets/images/favicon.png" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   </head>
 
 
@@ -28,14 +30,70 @@
   
   <body>
     <div class="container-scroller">
-      <!-- partial:partials/_sidebar.html -->
+          <!-- partial:partials/_sidebar.html -->
             @include('admin.sidebar')
-      <!-- partial -->
+          <!-- partial -->
             @include('admin.header')
-        <!-- partial -->
+          <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">  
 
+                @if (session()->has('message'))
+
+                  <div class="alert alert-success">
+
+                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
+                    {{ session()->get('message') }}
+
+                  </div>
+                  
+                @endif
+
+
+
+
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+              
+                      <th> Slider Images(id) </th>
+                      <th>Current Image</th>
+                      <th> Delete </th>
+                      <th>
+                         <form action="{{ url('/update_slider') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <input type="file" name="image" required="">
+                            <button type="submit" style="background: transparent; color:rgb(39, 236, 39); border:none; transform:translateX(-100px); outline:none;"><i class="bi bi-upload"></i> <span style="padding: 5px">Upload</span></button> 
+                        </form>
+                   </th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                   
+                    @foreach ($imageslide as $slider)
+                      <tr>
+
+                        <td> {{ $slider->id }} </td>
+                       
+                          <td> <img src="/slider/{{ $slider->image }}"> </td>
+                       
+                       
+
+                        <td> 
+                
+                            <button style="background: transparent;  border:none; outline:none;"><a style="text-decoration: none; color:#FF545E; " href="{{ url('delete_slider',$slider->id) }}"><i class="bi bi-trash3"></i></a></button> 
+  
+                        </td>
+                      </tr>  
+                    @endforeach 
+                    
+                  </tbody>
+                </table>
+              </div>
+
+            
 
 
 
@@ -46,16 +104,15 @@
 
 
 
+          <!-- container-scroller -->
 
 
 
+        </div>
+      </div>
+    </div>
 
-    <!-- container-scroller -->
-
-
-
-
-
+  
 
     <!-- plugins:js -->
     <script src="admin/assets/vendors/js/vendor.bundle.base.js"></script>
@@ -79,36 +136,46 @@
     <!-- End custom js for this page -->
 
     <script>
-      var logoutTimer;
+        var logoutTimer;
 
-        function startLogoutTimer() {
-        var timeoutDuration = 30 * 60 * 1000; // Set  timeout 
+          function startLogoutTimer() {
+            var timeoutDuration = 30 * 60 * 1000; // Set timeout
 
-        logoutTimer = setTimeout(function() {
-            // Perform AJAX logout request or redirect to the logout endpoint
-            window.location.href = '/logout';
-        }, timeoutDuration);
-        }
+            logoutTimer = setTimeout(function() {
+              // Perform AJAX logout request or redirect to the logout endpoint
+              window.location.href = '/admlogout';
+            }, timeoutDuration);
+          }
 
-        function resetLogoutTimer() {
-        clearTimeout(logoutTimer);
-        startLogoutTimer();
-        }
+          function resetLogoutTimer() {
+            clearTimeout(logoutTimer);
+            startLogoutTimer();
+          }
 
-        // Calls the resetLogoutTimer() function whenever the user performs any activity, such as clicking a button or making an AJAX request.
+          // Calls the resetLogoutTimer() function whenever the user performs any activity, such as clicking a button or making an AJAX request.
+          document.addEventListener('click', function() {
+            if (document.visibilityState === "visible") {
+              resetLogoutTimer();
+            }
+          });
 
-        document.addEventListener('click', function() {
-        resetLogoutTimer();
-        });
-      
-        // Calls the resetLogoutTimer() function whenever the user performs any activity
-        document.addEventListener('click', function() {
-        resetLogoutTimer();
-        });
+          // Starts the logout timer initially when the page loads
+          if (document.visibilityState === "visible") {
+            startLogoutTimer();
+          }
 
-        // Starts the logout timer initially when the page loads
-        startLogoutTimer();
-  </script>
+          // Listens for changes in the visibility state
+          document.addEventListener("visibilitychange", function() {
+            if (document.visibilityState === "visible") {
+              // Page is now active
+              startLogoutTimer();
+            } else {
+              // Page is not active
+              clearTimeout(logoutTimer);
+            }
+          });
+
+    </script>
 
 
 

@@ -20,7 +20,10 @@
     <!-- Layout styles -->
     <link rel="stylesheet" href="admin/assets/css/style.css">
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="admin/assets/images/favicon.png" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
   </head>
 
 
@@ -36,9 +39,19 @@
             @include('admin.body')
     <!-- container-scroller -->
 
+    <div class="main-panel">
+      <div class="content-wrapper"> 
 
+      @if (session()->has('message'))
 
+      <div class="alert alert-success" style="transform: translateY(20px);">
 
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
+        {{ session()->get('message') }}
+
+      </div>
+      
+      @endif
 
 
     <!-- plugins:js -->
@@ -66,32 +79,42 @@
       var logoutTimer;
 
         function startLogoutTimer() {
-        var timeoutDuration = 30 * 60 * 1000; // Set  timeout 
+          var timeoutDuration = 30 * 60 * 1000; // Set timeout
 
-        logoutTimer = setTimeout(function() {
+          logoutTimer = setTimeout(function() {
             // Perform AJAX logout request or redirect to the logout endpoint
-            window.location.href = '/logout';
-        }, timeoutDuration);
+            window.location.href = '/admlogout';
+          }, timeoutDuration);
         }
 
         function resetLogoutTimer() {
-        clearTimeout(logoutTimer);
-        startLogoutTimer();
+          clearTimeout(logoutTimer);
+          startLogoutTimer();
         }
 
         // Calls the resetLogoutTimer() function whenever the user performs any activity, such as clicking a button or making an AJAX request.
-
         document.addEventListener('click', function() {
-        resetLogoutTimer();
-        });
-      
-        // Calls the resetLogoutTimer() function whenever the user performs any activity
-        document.addEventListener('click', function() {
-        resetLogoutTimer();
+          if (document.visibilityState === "visible") {
+            resetLogoutTimer();
+          }
         });
 
         // Starts the logout timer initially when the page loads
-        startLogoutTimer();
+        if (document.visibilityState === "visible") {
+          startLogoutTimer();
+        }
+
+        // Listens for changes in the visibility state
+        document.addEventListener("visibilitychange", function() {
+          if (document.visibilityState === "visible") {
+            // Page is now active
+            startLogoutTimer();
+          } else {
+            // Page is not active
+            clearTimeout(logoutTimer);
+          }
+        });
+
   </script>
 
 

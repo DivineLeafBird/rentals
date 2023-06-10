@@ -16,6 +16,7 @@ use App\Http\Controllers\AdminController;
 */
 
 Route::get('/',[HomeController::class,'index']);
+Route::get('/redirect',[HomeController::class,'redirect']);
 
 Route::middleware([
     'auth:sanctum',
@@ -29,7 +30,7 @@ Route::middleware([
 
 // userpage routes
 
-Route::get('/redirect',[HomeController::class,'redirect']);
+
 Route::get('/logout',[HomeController::class,'logout']);
 Route::get('/category',[HomeController::class,'category']);
 Route::get('/blog',[HomeController::class,'blog']);
@@ -43,13 +44,15 @@ Route::get('/communityreplies',[HomeController::class,'communityreplies']);
 
 
 // adminpage routes
-Route::get('/redirect',[AdminController::class,'redirect']);
+
 Route::get('/admlogout',[AdminController::class,'admlogout']);
-Route::get('/view_home',[AdminController::class,'view_home']);
+Route::match(['GET', 'POST'], '/view_home', [AdminController::class, 'view_home']);
 Route::get('/view_category',[AdminController::class,'view_category']);
 Route::get('/view_blog',[AdminController::class,'view_blog']);
 Route::get('/view_community',[AdminController::class,'view_community']);
 Route::get('/view_about',[AdminController::class,'view_about']);
 Route::get('/view_contact',[AdminController::class,'view_contact']);
-
-
+Route::post('/update_slider',[AdminController::class,'update_slider']);
+Route::get('/delete_slider/{id}',[AdminController::class,'delete_slider']);
+Route::match(['GET', 'POST'], '/add_county', [AdminController::class, 'add_county']);
+Route::match(['GET', 'POST'], '/add_region', [AdminController::class, 'add_region']);

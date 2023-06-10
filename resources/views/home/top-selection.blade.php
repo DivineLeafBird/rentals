@@ -290,7 +290,7 @@
 
         <div class="more">
 
-            <button class="light-btn"><a href="">See More</a></button>
+            <a href="{{ url('category') }}"> <button class="light-btn">See More</button></a>
         </div>
 
 

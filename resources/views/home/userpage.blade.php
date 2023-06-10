@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Venpic Agencies</title>
     <link rel="stylesheet" href="home/styles.css">
-
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Open+Sans:ital,
@@ -96,35 +97,45 @@
    
 
     <script>
-          var logoutTimer;
+        var logoutTimer;
 
-            function startLogoutTimer() {
-            var timeoutDuration = 15 * 60 * 1000; // Set  timeout 
+          function startLogoutTimer() {
+            var timeoutDuration = 30 * 60 * 1000; // Set timeout
 
             logoutTimer = setTimeout(function() {
-                // Perform AJAX logout request or redirect to the logout endpoint
-                window.location.href = '/logout';
+              // Perform AJAX logout request or redirect to the logout endpoint
+              window.location.href = '/logout';
             }, timeoutDuration);
-            }
+          }
 
-            function resetLogoutTimer() {
+          function resetLogoutTimer() {
             clearTimeout(logoutTimer);
             startLogoutTimer();
+          }
+
+          // Calls the resetLogoutTimer() function whenever the user performs any activity, such as clicking a button or making an AJAX request.
+          document.addEventListener('click', function() {
+            if (document.visibilityState === "visible") {
+              resetLogoutTimer();
             }
+          });
 
-// Calls the resetLogoutTimer() function whenever the user performs any activity, such as clicking a button or making an AJAX request.
+          // Starts the logout timer initially when the page loads
+          if (document.visibilityState === "visible") {
+            startLogoutTimer();
+          }
 
-document.addEventListener('click', function() {
-  resetLogoutTimer();
-});
-        
-        // Calls the resetLogoutTimer() function whenever the user performs any activity
-        document.addEventListener('click', function() {
-        resetLogoutTimer();
-        });
-    
-        // Starts the logout timer initially when the page loads
-        startLogoutTimer();
+          // Listens for changes in the visibility state
+          document.addEventListener("visibilitychange", function() {
+            if (document.visibilityState === "visible") {
+              // Page is now active
+              startLogoutTimer();
+            } else {
+              // Page is not active
+              clearTimeout(logoutTimer);
+            }
+          });
+
     </script>
   
 

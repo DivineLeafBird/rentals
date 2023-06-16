@@ -102,14 +102,50 @@ class AdminController extends Controller
                 $region->name = $request->input('region_name');
                 $region->latitude = $request->input('region_latitude');
                 $region->longitude = $request->input('region_longitude');
-                $region->county_id = $county->id; // Set the foreign key
+                $region->county_id = $request->input('county');
 
                 // Calculate and save the distance
-                $distance = $region->distance;
-                $region->distance = $distance;
+                // Retrieve source and destination points from the database
+                $id_county =$request->input('county');
+                $county = County::find($id_county);
 
-                $region->save();
+                if ($county !== NULL)
+                {
+                    $centerLat = $county->latitude;
+                    $centerLon = $county->longitude;
+
+                    $regionLat = $request->input('region_latitude');
+                    $regionLon = $request->input('region_longitude');
+                    
+                    $truncatedDistance = $region->calculateDistance($centerLat, $centerLon, $regionLat, $regionLon);
+
+                    $region->distance = $truncatedDistance;
+
+                    $region->save();
 
                 return redirect()->back()->with('message','Region Successfully Added!');
-    }    
+                
+                }
+                else {
+                    // Handle the case when the central point is not found
+                    return redirect()->back()->with('error', 'Central Point Not Found!');
+                }
+
+    }  
+    
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\User;
 use App\Models\Slider;
+use App\Models\County;
+use App\Models\Region;
+use App\Models\Blog;
+use App\Models\Category;
+use App\Models\Community;
+use App\Models\Home;
 
 class HomeController extends Controller
 {   
@@ -22,8 +28,9 @@ class HomeController extends Controller
         $usertype=Auth::user()->usertype;
 
         if ($usertype =='1')
-            {
-                return view('admin.home');
+            {   
+                $counties= County::all();
+                return view('admin.home',compact('counties'));
             }
         else
         {

@@ -27,11 +27,10 @@ class AdminController extends Controller
     }
 
 
-
     public function view_home()
     {   
          $imageslide= Slider::all();
-        return view('admin.pages.home',compact('imageslide'));
+         return view('admin.pages.home',compact('imageslide'));
     }
 
     public function view_category()

@@ -57,9 +57,9 @@
                 <div class="preview-item-content">
                   <label style="padding: 8px;" for="county">County:</label>
                   <select name="county" style="background: transparent; border:none; outline:none; color:#fff; padding:16px;" required >
-                   
-                        <option  value=""> kilifi</option>
-                   
+                    @foreach ($counties as $county)
+                        <option  value="{{ $county->id }}" style="color: black;"> {{ $county->name }}</option>
+                    @endforeach
                 </select>
                   
                 </div>
@@ -91,11 +91,7 @@
           </li>
           
 
-          <li class="nav-item nav-settings d-none d-lg-block">
-            <a class="nav-link" href="#">
-              <i class="mdi mdi-view-grid"></i>
-            </a>
-          </li>
+          
           <li class="nav-item dropdown border-left">
             <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
               <i class="mdi mdi-email"></i>

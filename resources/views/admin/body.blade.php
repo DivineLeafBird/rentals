@@ -1,15 +1,21 @@
 <div class="main-panel">
     <div class="content-wrapper">
+     
 
       <div class="row">
         <div class="col-12 grid-margin stretch-card">
           <div class="card corona-gradient-card">
             <div class="card-body py-0 px-0 px-sm-3">
-              <div class="row align-items-center">
-                
-                <span>New payment from  n2einir3buv</span>
-               
+              @if (session()->has('message'))
+
+              <div class="alert alert-success" style="margin-top: 8px;">
+        
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
+                {{ session()->get('message') }}
+        
               </div>
+              
+              @endif
             </div>
           </div>
         </div>

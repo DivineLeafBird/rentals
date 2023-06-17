@@ -30,32 +30,39 @@ class AdminController extends Controller
     public function view_home()
     {   
          $imageslide= Slider::all();
-         return view('admin.pages.home',compact('imageslide'));
+         $counties= County::all();
+
+         return view('admin.pages.home',compact('imageslide','counties'));
     }
 
     public function view_category()
-    {
-        return view('admin.pages.category');
+    {   
+        $counties= County::all();
+        return view('admin.pages.category',compact('counties'));
     }
 
     public function view_community()
-    {
-        return view('admin.pages.community');
+    {   
+        $counties= County::all();
+        return view('admin.pages.community',compact('counties'));
     }
 
     public function view_blog()
-    {
-        return view('admin.pages.blog');
+    {   
+        $counties= County::all();
+        return view('admin.pages.blog',compact('counties'));
     }
     
     public function view_about()
-    {
-        return view('admin.pages.about');
+    {   
+        $counties= County::all();
+        return view('admin.pages.about',compact('counties'));
     }
 
     public function view_contact()
-    {
-        return view('admin.pages.contact');
+    {   
+        $counties= County::all();
+        return view('admin.pages.contact',compact('counties'));
     }
 
 

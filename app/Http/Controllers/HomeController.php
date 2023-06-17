@@ -25,17 +25,24 @@ class HomeController extends Controller
 
     public function redirect()
     {
-        $usertype=Auth::user()->usertype;
+        if (Auth::check()) {
 
-        if ($usertype =='1')
-            {   
-                $counties= County::all();
-                return view('admin.home',compact('counties'));
+            $usertype=Auth::user()->usertype;
+
+            if ($usertype == null) {
+
+                return redirect('/');
+            }elseif ($usertype =='1')
+                {   
+                    $counties= County::all();
+                    return view('admin.home',compact('counties'));
+            }else
+            {
+                $slideshows = Slider::all();
+                return view('home.userpage',compact('slideshows'));
             }
-        else
-        {
-            $slideshows = Slider::all();
-            return view('home.userpage',compact('slideshows'));
+        }else {
+            return redirect('/login');
         }
 
     }

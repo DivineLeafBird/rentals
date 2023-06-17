@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Slider;
 use App\Models\County;
 use App\Models\Region;
+use App\Models\Category;
 
 class AdminController extends Controller
 {
@@ -38,7 +39,8 @@ class AdminController extends Controller
     public function view_category()
     {   
         $counties= County::all();
-        return view('admin.pages.category',compact('counties'));
+        $categories = Category::all();
+        return view('admin.pages.category',compact('counties','categories'));
     }
 
     public function view_community()
@@ -139,7 +141,24 @@ class AdminController extends Controller
                 }
 
     }  
+
+    public function add_category(Request $request)
+    {
+        $category = new Category;
+        $category->category_name = $request->input('category_name');
+        $category->save();
+
+        return redirect()->back()->with('message','Category Succefully Added!');
+
+    }
     
+    public function delete_category($id)
+    {
+        $categories= Category::find($id);
+        $categories->delete();
+
+        return redirect()->back()->with('message','Category Successfully Deleted!');
+    }
    
 
 

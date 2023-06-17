@@ -13,14 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('blogs', function (Blueprint $table) {
-            $table->id();
-            $table->string('title')->nullable();
-            $table->string('slug')->nullable();
-            $table->string('author')->nullable();
-            $table->text('body')->nullable();
-            $table->string('image_path')->nullable();
-            $table->timestamps();
+        Schema::table('categories', function (Blueprint $table) {
+            //
         });
     }
 
@@ -31,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('blogs');
+        Schema::table('categories', function (Blueprint $table) {
+            //
+        });
     }
 };

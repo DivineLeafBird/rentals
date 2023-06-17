@@ -56,3 +56,5 @@ Route::post('/update_slider',[AdminController::class,'update_slider']);
 Route::get('/delete_slider/{id}',[AdminController::class,'delete_slider']);
 Route::match(['GET', 'POST'], '/add_county', [AdminController::class, 'add_county']);
 Route::match(['GET', 'POST'], '/add_region', [AdminController::class, 'add_region']);
+Route::match(['GET', 'POST'], '/add_category', [AdminController::class, 'add_category']);
+Route::get('/delete_category/{id}',[AdminController::class,'delete_category']);

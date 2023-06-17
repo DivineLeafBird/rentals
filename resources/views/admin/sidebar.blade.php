@@ -41,7 +41,7 @@
         </a>
         <div class="collapse" id="ui-basic">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="{{ url('view_home') }}">Home</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ url('view_home') }}">Landing Page</a></li>
             <li class="nav-item"> <a class="nav-link" href="{{ url('view_category') }}">Category</a></li>
             <li class="nav-item"> <a class="nav-link" href="{{ url('view_blog') }}">Blog</a></li>
             <li class="nav-item"> <a class="nav-link" href="{{ url('view_community') }}">Community</a></li>

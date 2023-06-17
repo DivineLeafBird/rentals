@@ -37,9 +37,72 @@
         <div class="main-panel">
             <div class="content-wrapper">  
 
+              @if (session()->has('message'))
+
+              <div class="alert alert-success">
+
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
+                {{ session()->get('message') }}
+
+              </div>
+              
+              @endif
 
 
 
+              <div class="preview-list" style="width:300px; transform:translateX(380px);">
+                <div class="preview-item-content">
+                  <label style="padding: 8px; transform:translateX(80px); "> Add Category</label>
+                </div>
+                <div class="dropdown-divider"></div>
+                <form action="{{ url('add_category') }}" method="POST">
+                  @csrf
+                  <div class="preview-item-content">
+                    <label style="padding: 8px;" for="category_name">Category Name:</label>
+                    <input style="background: transparent; border:none; outline:none; color:#fff; padding:8px;" type="text"  name="category_name" id="category_name" required placeholder="Write category name...">
+                  </div>
+
+                  <div class="dropdown-divider"></div>
+
+                  <button type="submit"  style="background: transparent; border:none; outline:none; color:rgb(38, 235, 38); transform:translateX(80px);" class="p-3 mb-0 text-center">Add Category</button>
+                  
+                  <div class="dropdown-divider"></div>
+                </form>
+
+              </div>
+
+              <div class="table-responsive" style="margin-top: 75px;">
+                <table class="table">
+                  <thead>
+                    <tr>
+              
+                      <th>id </th>
+                      <th>Categories</th>
+                      <th> Delete </th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach ($categories as $category )
+                      <tr>
+
+                        <td>{{ $category->id }} </td>
+                       
+                          <td>{{ $category->category_name }}</td>
+                       
+                       
+
+                        <td> 
+                
+                            <button style="background: transparent;  border:none; outline:none;"><a style="text-decoration: none; color:#FF545E; " href="{{ url('delete_category',$category->id) }}"><i class="bi bi-trash3"></i></a></button> 
+  
+                        </td>
+                      </tr>  
+                     @endforeach
+                    
+                  </tbody>
+                </table>
+              </div>
 
 
 

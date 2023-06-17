@@ -13,8 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('communities', function (Blueprint $table) {
+        Schema::create('imageshomes', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('home_id');
+            $table->foreign('home_id')->references('id')->on('homes');
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('communities');
+        Schema::dropIfExists('imageshomes');
     }
 };

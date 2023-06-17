@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Region extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['name', 'latitude', 'longitude', 'county_id'];
 
     public function county()

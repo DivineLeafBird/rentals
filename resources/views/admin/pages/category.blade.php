@@ -48,11 +48,11 @@
               
               @endif
 
-
+                {{-- Add Category --}}
 
               <div class="preview-list" style="width:300px; transform:translateX(380px);">
                 <div class="preview-item-content">
-                  <label style="padding: 8px; transform:translateX(80px); "> Add Category</label>
+                  <label style="padding: 8px; transform:translateX(80px); ">Category</label>
                 </div>
                 <div class="dropdown-divider"></div>
                 <form action="{{ url('add_category') }}" method="POST">
@@ -70,6 +70,8 @@
                 </form>
 
               </div>
+
+              {{-- Show category --}}
 
               <div class="table-responsive" style="margin-top: 75px;">
                 <table class="table">
@@ -102,12 +104,11 @@
                     
                   </tbody>
                 </table>
+                <div class="dropdown-divider"></div>
               </div>
 
 
-
-
-
+                 
 
 
 

@@ -23,6 +23,7 @@
     <link rel="shortcut icon" href="admin/assets/images/favicon.png" />
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
   </head>
 
 
@@ -37,13 +38,79 @@
         <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">  
+              @if (session()->has('message'))
+
+              <div class="alert alert-success">
+
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
+                {{ session()->get('message') }}
+
+              </div>
+              
+              @endif
 
 
 
 
 
+               {{-- Add amenities name --}}
+                
+               <div class="preview-list" style="width:300px; transform:translateX(380px);">
+                <div class="preview-item-content">
+                  <label style="padding: 8px; transform:translateX(80px); ">Amenities</label>
+                </div>
+                <div class="dropdown-divider"></div>
+                <form action="{{ url('add_amenity') }}" method="POST">
+                  @csrf
+                  <div class="preview-item-content">
+                    <label style="padding: 8px;" for="amenity_name">Amenity Name:</label>
+                    <input style="background: transparent; border:none; outline:none; color:#fff; padding:8px;" type="text"  name="amenity_name" id="amenity_name" required placeholder="Write amenity name...">
+                  </div>
 
+                  <div class="dropdown-divider"></div>
 
+                  <button type="submit"  style="background: transparent; border:none; outline:none; color:rgb(38, 235, 38); transform:translateX(80px);" class="p-3 mb-0 text-center">Add Amenity</button>
+                  
+                  <div class="dropdown-divider"></div>
+                </form>
+
+              </div>
+
+              {{-- Show amenities --}}
+      
+              <div class="table-responsive" style="margin-top: 75px;">
+              <table class="table">
+                <thead>
+                  <tr>
+            
+                    <th>id </th>
+                    <th>Amenities</th>
+                    <th> Delete </th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach ($amenities as $home )
+                    <tr>
+
+                      <td>{{ $home->id }} </td>
+                      
+                        <td>{{ $home->amenities }}</td>
+                      
+                      
+
+                      <td> 
+              
+                          <button style="background: transparent;  border:none; outline:none;"><a style="text-decoration: none; color:#FF545E; " href="{{ url('delete_amenity',$home->id) }}"><i class="bi bi-trash3"></i></a></button> 
+
+                      </td>
+                    </tr>  
+                    @endforeach
+                  
+                </tbody>
+              </table>
+              <div class="dropdown-divider"></div>
+            </div>    
 
 
 

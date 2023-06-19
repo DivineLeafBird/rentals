@@ -10,6 +10,7 @@ use App\Models\Slider;
 use App\Models\County;
 use App\Models\Region;
 use App\Models\Category;
+use App\Models\Home;
 
 class AdminController extends Controller
 {
@@ -28,31 +29,34 @@ class AdminController extends Controller
     }
 
 
-    public function view_home()
+    public function view_slideshow()
     {   
          $imageslide= Slider::all();
          $counties= County::all();
 
-         return view('admin.pages.home',compact('imageslide','counties'));
+         return view('admin.pages.slideshow',compact('imageslide','counties'));
     }
 
     public function view_category()
     {   
         $counties= County::all();
         $categories = Category::all();
-        return view('admin.pages.category',compact('counties','categories'));
+
+        return view('admin.pages.category',compact('counties','categories',));
     }
 
-    public function view_community()
+    public function view_amenities()
     {   
         $counties= County::all();
-        return view('admin.pages.community',compact('counties'));
+        $amenities = Home::all();
+
+        return view('admin.pages.amenities',compact('counties','amenities'));
     }
 
-    public function view_blog()
+    public function view_home()
     {   
         $counties= County::all();
-        return view('admin.pages.blog',compact('counties'));
+        return view('admin.pages.add_home',compact('counties'));
     }
     
     public function view_about()
@@ -160,8 +164,23 @@ class AdminController extends Controller
         return redirect()->back()->with('message','Category Successfully Deleted!');
     }
    
+    public function add_amenity(Request $request)
+    {
+        $amenity = new Home;
+        $amenity->amenities = $request->input('amenity_name');
+        $amenity->save();
 
+        return redirect()->back()->with('message','Amenity Succefully Added!');
 
+    }
+
+    public function delete_amenity($id)
+    {
+        $amenities= Home::find($id);
+        $amenities->delete();
+
+        return redirect()->back()->with('message','Amenity Successfully Deleted!');
+    }
 
 
 

@@ -36,15 +36,15 @@
           <span class="menu-icon">
             <i class="mdi mdi-laptop"></i>
           </span>
-          <span class="menu-title">User Pages</span>
+          <span class="menu-title">Add Data</span>
           <i class="menu-arrow"></i>
         </a>
         <div class="collapse" id="ui-basic">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="{{ url('view_home') }}">Landing Page</a></li>
-            <li class="nav-item"> <a class="nav-link" href="{{ url('view_category') }}">Category</a></li>
-            <li class="nav-item"> <a class="nav-link" href="{{ url('view_blog') }}">Blog</a></li>
-            <li class="nav-item"> <a class="nav-link" href="{{ url('view_community') }}">Community</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ url('view_slideshow') }}">Add Slideshow</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ url('view_category') }}">Add Category</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ url('view_amenities') }}">Add Amenities</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ url('view_home') }}">Add Home</a></li>
             <li class="nav-item"> <a class="nav-link" href="{{ url('view_about') }}">About</a></li>
             <li class="nav-item"> <a class="nav-link" href="{{ url('view_contact') }}">Contact</a></li>
           </ul>
@@ -55,7 +55,7 @@
           <span class="menu-icon">
             <i class="mdi mdi-playlist-play"></i>
           </span>
-          <span class="menu-title">Form Elements</span>
+          <span class="menu-title">View Homes</span>
         </a>
       </li>
       <li class="nav-item menu-items">
@@ -63,7 +63,7 @@
           <span class="menu-icon">
             <i class="mdi mdi-table-large"></i>
           </span>
-          <span class="menu-title">Tables</span>
+          <span class="menu-title">Messages</span>
         </a>
       </li>
       <li class="nav-item menu-items">
@@ -71,7 +71,7 @@
           <span class="menu-icon">
             <i class="mdi mdi-chart-bar"></i>
           </span>
-          <span class="menu-title">Charts</span>
+          <span class="menu-title">Applications</span>
         </a>
       </li>
       <li class="nav-item menu-items">
@@ -79,7 +79,7 @@
           <span class="menu-icon">
             <i class="mdi mdi-contacts"></i>
           </span>
-          <span class="menu-title">Icons</span>
+          <span class="menu-title">Users</span>
         </a>
       </li>
       <li class="nav-item menu-items">

@@ -25,10 +25,12 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->binary('video')->nullable();
             $table->string('image_path')->nullable();
+            $table->string('thumbnail')->nullable();
             $table->string('distance_county_center')->nullable();
             $table->string('inventory')->nullable();
             $table->string('rent_price')->nullable();
             $table->string('discount')->nullable();
+            $table->text('amenities')->nullable();
             $table->timestamps();
         });
     }

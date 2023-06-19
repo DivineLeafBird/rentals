@@ -46,10 +46,10 @@ Route::get('/communityreplies',[HomeController::class,'communityreplies']);
 // adminpage routes
 
 Route::get('/admlogout',[AdminController::class,'admlogout']);
-Route::match(['GET', 'POST'], '/view_home', [AdminController::class, 'view_home']);
+Route::match(['GET', 'POST'], '/view_slideshow', [AdminController::class, 'view_slideshow']);
 Route::get('/view_category',[AdminController::class,'view_category']);
-Route::get('/view_blog',[AdminController::class,'view_blog']);
-Route::get('/view_community',[AdminController::class,'view_community']);
+Route::get('/view_amenities',[AdminController::class,'view_amenities']);
+Route::get('/view_home',[AdminController::class,'view_home']);
 Route::get('/view_about',[AdminController::class,'view_about']);
 Route::get('/view_contact',[AdminController::class,'view_contact']);
 Route::post('/update_slider',[AdminController::class,'update_slider']);
@@ -58,3 +58,5 @@ Route::match(['GET', 'POST'], '/add_county', [AdminController::class, 'add_count
 Route::match(['GET', 'POST'], '/add_region', [AdminController::class, 'add_region']);
 Route::match(['GET', 'POST'], '/add_category', [AdminController::class, 'add_category']);
 Route::get('/delete_category/{id}',[AdminController::class,'delete_category']);
+Route::match(['GET', 'POST'], '/add_amenity', [AdminController::class, 'add_amenity']);
+Route::get('/delete_amenity/{id}',[AdminController::class,'delete_amenity']);

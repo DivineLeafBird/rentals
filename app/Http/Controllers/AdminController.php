@@ -11,6 +11,8 @@ use App\Models\County;
 use App\Models\Region;
 use App\Models\Category;
 use App\Models\Home;
+use App\Models\Amenity;
+
 
 class AdminController extends Controller
 {
@@ -48,7 +50,7 @@ class AdminController extends Controller
     public function view_amenities()
     {   
         $counties= County::all();
-        $amenities = Home::all();
+        $amenities = Amenity::all();
 
         return view('admin.pages.amenities',compact('counties','amenities'));
     }
@@ -166,8 +168,8 @@ class AdminController extends Controller
    
     public function add_amenity(Request $request)
     {
-        $amenity = new Home;
-        $amenity->amenities = $request->input('amenity_name');
+        $amenity = new Amenity;
+        $amenity->name = $request->input('amenity_name');
         $amenity->save();
 
         return redirect()->back()->with('message','Amenity Succefully Added!');
@@ -176,7 +178,7 @@ class AdminController extends Controller
 
     public function delete_amenity($id)
     {
-        $amenities= Home::find($id);
+        $amenities= Amenity::find($id);
         $amenities->delete();
 
         return redirect()->back()->with('message','Amenity Successfully Deleted!');

@@ -14,4 +14,10 @@ class Home extends Model
     return $this->hasMany(Imageshome::class);
 }
 
+    public function amenities()
+{
+    return $this->belongsToMany(Amenity::class);
+}
+
+
 }

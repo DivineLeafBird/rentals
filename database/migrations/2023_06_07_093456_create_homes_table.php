@@ -17,11 +17,13 @@ return new class extends Migration
             $table->id();
             $table->string('county')->nullable();
             $table->string('region')->nullable();
-            $table->string('house_name')->nullable();
+            $table->string('house_name')->nullable()->unique();
             $table->string('landlord_name')->nullable();
             $table->string('phone_number')->nullable();
             $table->string('category_name')->nullable();
             $table->string('rating_score')->nullable();
+            $table->string('rating_count')->nullable();
+            $table->string('short_desc')->nullable();
             $table->text('description')->nullable();
             $table->binary('video')->nullable();
             $table->string('image_path')->nullable();

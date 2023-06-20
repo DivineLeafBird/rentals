@@ -90,18 +90,18 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach ($amenities as $home )
+                  @foreach ($amenities as $amenity )
                     <tr>
 
-                      <td>{{ $home->id }} </td>
+                      <td>{{ $amenity->id }} </td>
                       
-                        <td>{{ $home->amenities }}</td>
+                        <td>{{ $amenity->name }}</td>
                       
                       
 
                       <td> 
               
-                          <button style="background: transparent;  border:none; outline:none;"><a style="text-decoration: none; color:#FF545E; " href="{{ url('delete_amenity',$home->id) }}"><i class="bi bi-trash3"></i></a></button> 
+                          <button style="background: transparent;  border:none; outline:none;"><a style="text-decoration: none; color:#FF545E; " href="{{ url('delete_amenity',$amenity->id) }}"><i class="bi bi-trash3"></i></a></button> 
 
                       </td>
                     </tr>  

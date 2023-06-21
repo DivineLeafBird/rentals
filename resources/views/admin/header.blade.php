@@ -60,7 +60,7 @@
                     @foreach ($counties as $county)
                         <option  value="{{ $county->id }}" style="color: black;"> {{ $county->name }}</option>
                     @endforeach
-                </select>
+                  </select>
                   
                 </div>
                 <div class="dropdown-divider"></div>

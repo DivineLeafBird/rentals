@@ -58,7 +58,9 @@ class AdminController extends Controller
     public function view_home()
     {   
         $counties= County::all();
-        return view('admin.pages.add_home',compact('counties'));
+        $categories = Category::all();
+        $regions = Region::all();
+        return view('admin.pages.add_home',compact('counties','categories','regions'));
     }
     
     public function view_about()

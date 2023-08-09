@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('imageshomes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('home_id');
-            $table->foreign('home_id')->references('id')->on('homes');
+            $table->String('home_name')->nullable();
+            $table->String('filename')->nullable();
+            $table->String('original_name')->nullable();
             $table->timestamps();
         });
     }

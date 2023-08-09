@@ -9,9 +9,10 @@ class Amenity extends Model
 {
     use HasFactory;
 
-    public function homes()
-{
-    return $this->belongsToMany(Home::class);
-}
+    protected $fillable = ['name'];
 
+    public function homes()
+    {
+        return $this->belongsToMany(Home::class);
+    }
 }

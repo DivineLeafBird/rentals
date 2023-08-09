@@ -12,6 +12,9 @@ use App\Models\Region;
 use App\Models\Category;
 use App\Models\Home;
 use App\Models\Amenity;
+use App\Models\AmenHome;
+use App\Models\Blog;
+use App\Models\Imageshome;
 
 
 class AdminController extends Controller
@@ -177,5 +180,95 @@ class AdminController extends Controller
         $amenities->delete();
 
         return redirect()->back()->with('message', 'Amenity Successfully Deleted!');
+    }
+
+    public function add_home(Request $request)
+    {
+        $request->validate([
+            'video' => 'required|mimes:mp4,ogx,oga,ogg,ogv,webm'
+        ]);
+
+        // save video
+        $video = $request->file('video');
+
+        $video->move('videos', $video->getClientOriginalName());
+        $filename = $video->getClientOriginalName();
+
+        $newHome = new Home();
+        $newHome->video = $filename;
+
+        // save house details
+
+        $newHome->house_name = $request->input('house_name');
+
+        $newHome->category_id = $request->input('category_name');
+
+        $category_id = $request->input('category_name');
+        $category = Category::findOrFail($category_id);
+        $newHome->category_name = $category->category_name;
+
+        $thumbnail = $request->thumbnail;
+        $thumbnail_name = time() . '.' . $thumbnail->getClientOriginalExtension();
+        $request->thumbnail->move('public/thumbnails', $thumbnail_name);
+        $newHome->thumbnail = $thumbnail_name;
+
+
+        $newHome->short_desc = $request->input('short_desc');
+        $newHome->description = $request->input('description');
+        $newHome->inventory = $request->input('inventory');
+        $newHome->rent_price = $request->input('rent_price');
+        $newHome->discount = $request->input('discount');
+
+        $newHome->county_id = $request->input('county');
+        $newHome->region_id = $request->input('region');
+
+        $county_id = $request->input('county');
+        $county = County::findOrFail($county_id);
+        $newHome->county = $county->name;
+
+        $region_id = $request->input('region');
+        $region = Region::findOrFail($region_id);
+        $newHome->region = $region->name;
+
+
+
+
+        $newHome->distance_county_center = $request->input('distance_county_center');
+        $newHome->landlord_name = $request->input('landlord_name');
+        $newHome->phone_number = $request->input('phone_number');
+
+        // save Images
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('homeimages');
+
+                $ImagesModel = new Imageshome();
+                $ImagesModel->home_name = $request->input('house_name');
+                $ImagesModel->original_name = $image->getClientOriginalName();
+                $ImagesModel->filename = $path;
+                $ImagesModel->save();
+            }
+        }
+
+
+
+        $selectedAmenities = $request->input('amenities', []);
+
+        // Save the selected amenities for the home
+        foreach ($selectedAmenities as $amenityId) {
+            $amenity = Amenity::find($amenityId);
+
+            $AmenModel =  new AmenHome();
+            $AmenModel->amenity_name = $amenity->name;
+            $AmenModel->amenity_id = $amenity->id;
+            $AmenModel->home_name = $request->input('house_name');
+
+            $AmenModel->save();
+        }
+
+        $newHome->save();
+
+        return redirect()->back()->with('message', 'Home Successfully Added!');
     }
 }

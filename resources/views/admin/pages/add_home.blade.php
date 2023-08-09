@@ -39,6 +39,14 @@
         <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">
+                @if (session()->has('message'))
+                    <div class="alert alert-success">
+
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
+                        {{ session()->get('message') }}
+
+                    </div>
+                @endif
 
                 <div class="row ">
                     <div class="col-12 grid-margin">
@@ -56,7 +64,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <form action="">
+                                            <form action="{{ url('add_home') }}" method="POST"
+                                                enctype="multipart/form-data">
                                                 @csrf
 
                                                 <tr>
@@ -102,9 +111,10 @@
                                                                     <div class="form-check form-check-primary">
 
                                                                         @foreach ($amenities as $Amenity)
-                                                                            <label class="form-check-label"> </label>
+                                                                            <label class="form-check-label"
+                                                                                for="amenities"> </label>
                                                                             <input type="checkbox" name="amenities[]"
-                                                                                value="{{ $Amenity->id }}">
+                                                                                multiple value="{{ $Amenity->id }}">
                                                                             {{ $Amenity->name }}
                                                                         @endforeach
                                                                     </div>
@@ -127,21 +137,19 @@
                                                 </tr>
                                                 <tr>
 
-                                                    <td style="font-weight:700"><label for="house_name"></label> Images
+                                                    <td style="font-weight:700"><label for="images"></label> Images
                                                         :</td>
-                                                    <td><input type="text" name="house_name" id="house_name" required
-                                                            placeholder="Write house name..."
-                                                            style="background: transparent; border:none; outline:none; color:#fff; padding:8px;">
+                                                    <td><input type="file" name="images[]" id="images" multiple
+                                                            required style="padding:8px;">
                                                     </td>
 
                                                 </tr>
                                                 <tr>
 
-                                                    <td style="font-weight:700"><label for="house_name"></label> Video :
+                                                    <td style="font-weight:700"><label for="video"></label> Video :
                                                     </td>
-                                                    <td><input type="text" name="house_name" id="house_name" required
-                                                            placeholder="Write house name..."
-                                                            style="background: transparent; border:none; outline:none; color:#fff; padding:8px;">
+                                                    <td><input type="file" name="video" accept="video/*" required
+                                                            style="padding:8px;">
                                                     </td>
 
                                                 </tr>
@@ -169,8 +177,8 @@
 
                                                     <td style="font-weight:700"><label for="inventory"></label>
                                                         Available Rent Units :</td>
-                                                    <td><input type="number" name="inventory" id="inventory" required
-                                                            placeholder="Rental units number..."
+                                                    <td><input type="number" name="inventory" id="inventory"
+                                                            required placeholder="Rental units number..."
                                                             style="background: transparent; border:none; outline:none; color:#fff; padding:8px;">
                                                     </td>
 
@@ -232,7 +240,7 @@
                                                 <tr>
                                                     <td style="font-weight:700"><label
                                                             for="distance_county_center"></label> Distance :</td>
-                                                    <td> 1234 km</td>
+                                                    <td name='distance_county_center'> 1234 km</td>
                                                 </tr>
 
                                                 <tr>

@@ -9,15 +9,20 @@ class Home extends Model
 {
     use HasFactory;
 
-    public function images()
-{
-    return $this->hasMany(Imageshome::class);
-}
+    protected $fillable = ['name'];
+
+    public function imageshomes()
+    {
+        return $this->hasMany(Imageshome::class);
+    }
 
     public function amenities()
-{
-    return $this->belongsToMany(Amenity::class);
-}
+    {
+        return $this->belongsToMany(Amenity::class);
+    }
 
-
+    public function videos()
+    {
+        return $this->hasMany(Video::class);
+    }
 }

@@ -15,8 +15,14 @@ return new class extends Migration
     {
         Schema::create('amenities', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
+            $table->string('name');
+            $table->unsignedBigInteger('home_id')->nullable();
+
+
+
             $table->timestamps();
+
+            $table->foreign('home_id')->references('id')->on('homes');
         });
     }
 

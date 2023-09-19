@@ -78,6 +78,33 @@ class AdminController extends Controller
         return view('admin.pages.contact', compact('counties'));
     }
 
+    public function view_homes()
+    {
+        $counties = County::all();
+        $home = Home::all();
+        return view('admin.pages.view_homes', compact('counties', 'home'));
+    }
+
+    public function show_home($id)
+    {
+        $home = Home::find($id);
+        $counties = County::all();
+        $categories = Category::all();
+        $regions = Region::all();
+        $amenities = Amenity::all();
+
+        return view('admin.pages.show_home', compact('home', 'counties', 'categories', 'regions', 'amenities'));
+    }
+
+    public function delete_home($id)
+    {
+        $home = Home::find($id);
+
+        $home->delete();
+
+        return redirect('/view_homes')->with('message', 'Home Successfully Deleted!');
+    }
+
 
     public function update_slider(Request $request)
     {
@@ -184,18 +211,7 @@ class AdminController extends Controller
 
     public function add_home(Request $request)
     {
-        $request->validate([
-            'video' => 'required|mimes:mp4,ogx,oga,ogg,ogv,webm'
-        ]);
-
-        // save video
-        $video = $request->file('video');
-
-        $video->move('videos', $video->getClientOriginalName());
-        $filename = $video->getClientOriginalName();
-
         $newHome = new Home();
-        $newHome->video = $filename;
 
         // save house details
 
@@ -209,7 +225,7 @@ class AdminController extends Controller
 
         $thumbnail = $request->thumbnail;
         $thumbnail_name = time() . '.' . $thumbnail->getClientOriginalExtension();
-        $request->thumbnail->move('public/thumbnails', $thumbnail_name);
+        $request->thumbnail->move('thumbnails', $thumbnail_name);
         $newHome->thumbnail = $thumbnail_name;
 
 
@@ -230,10 +246,26 @@ class AdminController extends Controller
         $region = Region::findOrFail($region_id);
         $newHome->region = $region->name;
 
+        // calculate Distance
+
+        $id_county =  $request->input('county');
+        $count = County::findOrFail($id_county);
+
+        if ($count !== NULL) {
+            $centerLat = $count->latitude;
+            $centerLon = $count->longitude;
+
+            $id_region = $request->input('region');
+            $regi = Region::findOrFail($id_region);
+            $regionLat = $regi->latitude;
+            $regionLon = $regi->longitude;
+
+            $truncatedDistance = $newHome->calculateDistance($centerLat, $centerLon, $regionLat, $regionLon);
+
+            $newHome->distance_county_center = $truncatedDistance;
+        }
 
 
-
-        $newHome->distance_county_center = $request->input('distance_county_center');
         $newHome->landlord_name = $request->input('landlord_name');
         $newHome->phone_number = $request->input('phone_number');
 
@@ -251,7 +283,30 @@ class AdminController extends Controller
             }
         }
 
+        // save video
+        $request->validate([
+            'video' => 'required|mimes:mp4,ogx,oga,ogg,ogv,webm'
+        ]);
 
+        $video = $request->file('video');
+
+        // if ($video) {
+        //     $filename = $video->getClientOriginalName();
+        //     $video->move('videos', $filename);
+        //     // Generate a URL to the uploaded video
+        //     $videoUrl = asset('videos/' . $filename);
+        //     // Store the video URL in the 'video' column of the Home model
+        //     $newHome->video = $videoUrl;
+        // }
+
+
+
+        $video = $request->file('video');
+        $video->move('public/videos', $video->getClientOriginalName());
+        $filename = $video->getClientOriginalName();
+        $newHome->video = $filename;
+
+        // Amenities
 
         $selectedAmenities = $request->input('amenities', []);
 

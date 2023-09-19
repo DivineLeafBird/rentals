@@ -61,3 +61,6 @@ Route::get('/delete_category/{id}', [AdminController::class, 'delete_category'])
 Route::match(['GET', 'POST'], '/add_amenity', [AdminController::class, 'add_amenity']);
 Route::get('/delete_amenity/{id}', [AdminController::class, 'delete_amenity']);
 Route::match(['GET', 'POST'], '/add_home', [AdminController::class, 'add_home']);
+Route::get('/view_homes', [AdminController::class, 'view_homes']);
+Route::get('/show_home/{id}', [AdminController::class, 'show_home']);
+Route::get('/delete_home/{id}', [AdminController::class, 'delete_home']);

@@ -157,9 +157,12 @@
 
                                                     <td style="font-weight:700"><label for="short_desc"></label> Short
                                                         Description :</td>
-                                                    <td><input type="text" name="short_desc" id="short_desc" required
-                                                            placeholder="Short description..."
-                                                            style="background: transparent; border:none; outline:none; color:#fff; padding:8px;">
+                                                    <td>
+                                                        <div class="home-textarea">
+                                                            <textarea name="short_desc" id="short_desc" required placeholder="Short description..."
+                                                                style="background: transparent; border:none; outline:none; color:#fff; padding:8px;">
+                                                        </textarea>
+                                                        </div>
                                                     </td>
 
                                                 </tr>
@@ -167,9 +170,12 @@
 
                                                     <td style="font-weight:700"><label
                                                             for="description"></label>Detailed Description :</td>
-                                                    <td><input type="text" name="description" id="description"
-                                                            required placeholder="Detailed description..."
-                                                            style="background: transparent; border:none; outline:none; color:#fff; padding:8px;">
+                                                    <td>
+                                                        <div class="home-textarea">
+                                                            <textarea name="description" id="description" required placeholder="Detailed description..."
+                                                                style="background: transparent; border:none; outline:none; color:#fff; padding:8px;">
+                                                        </textarea>
+                                                        </div>
                                                     </td>
 
                                                 </tr>
@@ -237,11 +243,11 @@
 
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                                {{-- <tr>
                                                     <td style="font-weight:700"><label
                                                             for="distance_county_center"></label> Distance :</td>
                                                     <td name='distance_county_center'> 1234 km</td>
-                                                </tr>
+                                                </tr> --}}
 
                                                 <tr>
 
@@ -355,6 +361,15 @@
                             // Page is not active
                             clearTimeout(logoutTimer);
                         }
+                    });
+                </script>
+
+                <script>
+                    const textarea = document.querySelector("textarea");
+                    textarea.addEventListener("keyup", e => {
+                        textarea.style.height = "63px";
+                        let scHeight = e.target.scrollHeight;
+                        textarea.style.height = '${scHeight}px';
                     });
                 </script>
 

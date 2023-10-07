@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Venpic</title>
 
     <style>
         body {
@@ -127,7 +127,7 @@
 
 <body>
 
-    <form action="{{ url('edit_home') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('update_home', ['home' => $home->id]) }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <label for="house_name">House Name :</label>
@@ -164,10 +164,10 @@
 
         <img style="height: 15%; object-fit:cover; width:100%; border-radius:5px;"
             src="/thumbnails/{{ $home->thumbnail }}" alt="">
-        <input type="file" name="thumbnail" required style="padding-bottom: 35px">
+        <input type="file" name="thumbnail" style="padding-bottom: 35px">
 
         <label for="images"> Images : </label>
-        <input type="file" name="images[]" id="images" multiple required style="padding-bottom: 35px">
+        <input type="file" name="images[]" id="images" multiple style="padding-bottom: 35px">
 
         <label for="video">Video :</label>
         <video width="600" height="240" controls>
@@ -175,7 +175,7 @@
             Your browser does not support the video tag.
         </video>
         <br>
-        <input type="file" name="video" accept="video/*" required style="padding-bottom: 35px">
+        <input type="file" name="video" accept="video/*" style="padding-bottom: 35px">
 
         <label for="short_desc">Short :</label>
         <div>
@@ -199,7 +199,6 @@
 
         <label for="description">Detailed Description :</label>
         <div>
-            {{-- <input type="text" name="description" id="description" required value="{{ $home->description }}"> --}}
             <div>
                 <textarea name="description" id="description" required>{{ $home->description }}</textarea>
             </div>
@@ -227,16 +226,16 @@
         <input type="number" name="discount" id="discount" value="{{ $home->discount }}">
 
         <label for="county">County :</label>
-        <select name="county" required>
-            <option value="" selected=""> Select County </option>
+        <select name="county">
+            <option value="{{ $home->county }}"> {{ $home->county }} </option>
             @foreach ($counties as $county)
                 <option value="{{ $county->id }}"> {{ $county->name }}</option>
             @endforeach
         </select>
 
         <label for="region">Region :</label>
-        <select name="region" required>
-            <option value="" selected=""> Select Region</option>
+        <select name="region">
+            <option value="{{ $home->region }}"> {{ $home->region }}</option>
             @foreach ($regions as $region)
                 <option value="{{ $region->id }}" style="color: black;"> {{ $region->name }}</option>
             @endforeach
@@ -248,7 +247,8 @@
         <label for="phone_number">Telephone Number :</label>
         <input type="number" name="phone_number" id="phone_number" required value="{{ $home->phone_number }}">
 
-        <button type="submit" class="badge badge-outline-success">Update</button>
+        <button type="submit" class="badge badge-outline-success"
+            onclick="return confirm('Are you sure you want to Update this Home?')">Update</button>
     </form>
 
 

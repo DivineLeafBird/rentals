@@ -13,60 +13,69 @@ use App\Models\Blog;
 use App\Models\Category;
 use App\Models\Community;
 use App\Models\Home;
+use App\Models\Imageshome;
 
 class HomeController extends Controller
-{   
+{
 
-    public function index() 
-    {   
+    public function index()
+    {
         $slideshows = Slider::all();
-        return view('home.userpage',compact('slideshows'));
+        $homes = Home::all();
+        return view('home.userpage', compact('slideshows', compact('homes')));
     }
 
     public function redirect()
     {
         if (Auth::check()) {
 
-            $usertype=Auth::user()->usertype;
+            $usertype = Auth::user()->usertype;
 
             if ($usertype == null) {
 
                 return redirect('/');
-            }elseif ($usertype =='1')
-                {   
-                    $counties= County::all();
-                    return view('admin.home',compact('counties'));
-            }else
-            {
+            } elseif ($usertype == '1') {
+                $counties = County::all();
+                return view('admin.home', compact('counties'));
+            } else {
                 $slideshows = Slider::all();
-                return view('home.userpage',compact('slideshows'));
+                $homes = Home::all();
+                return view('home.userpage', compact('slideshows', 'homes'));
             }
-        }else {
+        } else {
             return redirect('/login');
         }
-
     }
 
     public function logout()
     {
 
-        
+
         Auth::logout();
-        
+
         return Redirect::to('/');
     }
 
     public function users()
     {
         $data = User::all();
-        return view('home.header',compact('data'));
-        
+        return view('home.header', compact('data'));
     }
 
     public function category()
     {
-        return view('home.category');
+        $homes = Home::all();
+        return view('home.category', compact('homes'));
     }
+
+    public function home_details($home)
+    {
+        $data = Home::findOrFail($home);
+        $images = Imageshome::Where('home_id', $home)->get();
+        return view('home.home_details', compact('data', 'images'));
+    }
+
+
 
     public function blog()
     {
@@ -97,5 +106,4 @@ class HomeController extends Controller
     {
         return view('home.community-replies');
     }
-
 }

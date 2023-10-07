@@ -202,7 +202,7 @@
                                                 <tr>
 
                                                     <td style="font-weight:700"><label for="discount"></label>
-                                                        Discount :</td>
+                                                        Discounted Price :</td>
                                                     <td><input type="number" name="discount" id="discount"
                                                             placeholder="Discount offered ..."
                                                             style="background: transparent; border:none; outline:none; color:#fff; padding:8px;">

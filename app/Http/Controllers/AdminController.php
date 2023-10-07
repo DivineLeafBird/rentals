@@ -32,40 +32,6 @@ class AdminController extends Controller
     }
 
 
-    public function view_slideshow()
-    {
-        $imageslide = Slider::all();
-        $counties = County::all();
-
-        return view('admin.pages.slideshow', compact('imageslide', 'counties'));
-    }
-
-    public function view_category()
-    {
-        $counties = County::all();
-        $categories = Category::all();
-
-        return view('admin.pages.category', compact('counties', 'categories',));
-    }
-
-    public function view_amenities()
-    {
-        $counties = County::all();
-        $amenities = Amenity::all();
-
-        return view('admin.pages.amenities', compact('counties', 'amenities'));
-    }
-
-    public function view_home()
-    {
-        $counties = County::all();
-        $categories = Category::all();
-        $regions = Region::all();
-        $amenities = Amenity::all();
-
-        return view('admin.pages.add_home', compact('counties', 'categories', 'regions', 'amenities'));
-    }
-
     public function view_about()
     {
         $counties = County::all();
@@ -78,33 +44,16 @@ class AdminController extends Controller
         return view('admin.pages.contact', compact('counties'));
     }
 
-    public function view_homes()
+
+    // Slider Adding
+
+    public function view_slideshow()
     {
+        $imageslide = Slider::all();
         $counties = County::all();
-        $home = Home::all();
-        return view('admin.pages.view_homes', compact('counties', 'home'));
+
+        return view('admin.pages.slideshow', compact('imageslide', 'counties'));
     }
-
-    public function show_home($id)
-    {
-        $home = Home::find($id);
-        $counties = County::all();
-        $categories = Category::all();
-        $regions = Region::all();
-        $amenities = Amenity::all();
-
-        return view('admin.pages.show_home', compact('home', 'counties', 'categories', 'regions', 'amenities'));
-    }
-
-    public function delete_home($id)
-    {
-        $home = Home::find($id);
-
-        $home->delete();
-
-        return redirect('/view_homes')->with('message', 'Home Successfully Deleted!');
-    }
-
 
     public function update_slider(Request $request)
     {
@@ -128,6 +77,8 @@ class AdminController extends Controller
 
         return redirect()->back()->with('message', 'Slider-Image Successfully Deleted!');
     }
+
+    // Geo Location
 
     public function  add_county(Request $request)
     {
@@ -175,6 +126,16 @@ class AdminController extends Controller
         }
     }
 
+    // Adding Categories
+
+    public function view_category()
+    {
+        $counties = County::all();
+        $categories = Category::all();
+
+        return view('admin.pages.category', compact('counties', 'categories',));
+    }
+
     public function add_category(Request $request)
     {
         $category = new Category;
@@ -192,6 +153,17 @@ class AdminController extends Controller
         return redirect()->back()->with('message', 'Category Successfully Deleted!');
     }
 
+    // Amenities Available
+
+    public function view_amenities()
+    {
+        $counties = County::all();
+        $amenities = Amenity::all();
+
+        return view('admin.pages.amenities', compact('counties', 'amenities'));
+    }
+
+
     public function add_amenity(Request $request)
     {
         $amenity = new Amenity;
@@ -207,6 +179,18 @@ class AdminController extends Controller
         $amenities->delete();
 
         return redirect()->back()->with('message', 'Amenity Successfully Deleted!');
+    }
+
+    // Create a Home
+
+    public function new_home()
+    {
+        $counties = County::all();
+        $categories = Category::all();
+        $regions = Region::all();
+        $amenities = Amenity::all();
+
+        return view('admin.pages.add_home', compact('counties', 'categories', 'regions', 'amenities'));
     }
 
     public function add_home(Request $request)
@@ -265,9 +249,152 @@ class AdminController extends Controller
             $newHome->distance_county_center = $truncatedDistance;
         }
 
+        // save video
+
+        $request->validate([
+            'video' => 'required|mimes:mp4,ogx,oga,ogg,ogv,webm'
+        ]);
+
+        $video = $request->file('video');
+        $video->move('videos', $video->getClientOriginalName());
+        $filename = $video->getClientOriginalName();
+        $newHome->video = $filename;
 
         $newHome->landlord_name = $request->input('landlord_name');
         $newHome->phone_number = $request->input('phone_number');
+
+        $newHome->save();
+
+        // Home Id
+
+        $homeId = $newHome->id;
+
+        // Amenities
+
+        $selectedAmenities = $request->input('amenities', []);
+
+        // Save the selected amenities for the home
+        foreach ($selectedAmenities as $amenityId) {
+            $amenity = Amenity::find($amenityId);
+
+            $AmenModel =  new AmenHome();
+            $AmenModel->amenity_name = $amenity->name;
+            $AmenModel->amenity_id = $amenity->id;
+            $AmenModel->home_name = $request->input('house_name');
+            $AmenModel->home_id = $homeId;
+            $newHome->amenhomes()->save($AmenModel);
+        }
+
+
+        // save Images
+
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $image->move('homeimages', $image->getClientOriginalName());
+                $ImagesModel = new Imageshome();
+                $ImagesModel->home_name = $request->input('house_name');
+                $ImagesModel->home_id = $homeId;
+                $ImagesModel->original_name = $image->getClientOriginalName();
+                $newHome->imageshomes()->save($ImagesModel);
+            }
+        }
+
+        return redirect()->back()->with('message', 'Home Successfully Added!');
+    }
+
+    // Home View
+
+    public function view_homes()
+    {
+        $counties = County::all();
+        $home = Home::all();
+        return view('admin.pages.view_homes', compact('counties', 'home'));
+    }
+
+    public function show_home($id)
+    {
+        $home = Home::find($id);
+        $counties = County::all();
+        $categories = Category::all();
+        $regions = Region::all();
+        $amenities = Amenity::all();
+
+        return view('admin.pages.show_home', compact('home', 'counties', 'categories', 'regions', 'amenities'));
+    }
+
+    public function delete_home($id)
+    {
+        $home = Home::find($id);
+
+        $home->delete();
+
+        return redirect('/view_homes')->with('message', 'Home Successfully Deleted!');
+    }
+
+
+    // Update Home details
+
+    public function update_home(Request $request, $home)
+    {
+        $homme = Home::find($home);
+
+        $homme->house_name = $request->input('house_name');
+
+        $homme->category_id = $request->input('category_name');
+
+        $category_id = $request->input('category_name');
+        $category = Category::findOrFail($category_id);
+        $homme->category_name = $category->category_name;
+
+        $thumbnail = $request->thumbnail;
+        if ($thumbnail) {
+            $thumbnail_name = time() . '.' . $thumbnail->getClientOriginalExtension();
+            $request->thumbnail->move('thumbnails', $thumbnail_name);
+            $homme->thumbnail = $thumbnail_name;
+        }
+
+
+
+        $homme->short_desc = $request->input('short_desc');
+        $homme->description = $request->input('description');
+        $homme->inventory = $request->input('inventory');
+        $homme->rent_price = $request->input('rent_price');
+        $homme->discount = $request->input('discount');
+
+        $homme->county_id = $request->input('county');
+        $homme->region_id = $request->input('region');
+
+        $county_id = $request->input('county');
+        $county = County::findOrFail($county_id);
+        $homme->county = $county->name;
+
+        $region_id = $request->input('region');
+        $region = Region::findOrFail($region_id);
+        $homme->region = $region->name;
+
+        // calculate Distance
+
+        $id_county =  $request->input('county');
+        $count = County::findOrFail($id_county);
+
+        if ($count !== NULL) {
+            $centerLat = $count->latitude;
+            $centerLon = $count->longitude;
+
+            $id_region = $request->input('region');
+            $regi = Region::findOrFail($id_region);
+            $regionLat = $regi->latitude;
+            $regionLon = $regi->longitude;
+
+            $truncatedDistance = $homme->calculateDistance($centerLat, $centerLon, $regionLat, $regionLon);
+
+            $homme->distance_county_center = $truncatedDistance;
+        }
+
+
+        $homme->landlord_name = $request->input('landlord_name');
+        $homme->phone_number = $request->input('phone_number');
 
         // save Images
 
@@ -284,27 +411,17 @@ class AdminController extends Controller
         }
 
         // save video
+
         $request->validate([
             'video' => 'required|mimes:mp4,ogx,oga,ogg,ogv,webm'
         ]);
 
         $video = $request->file('video');
-
-        // if ($video) {
-        //     $filename = $video->getClientOriginalName();
-        //     $video->move('videos', $filename);
-        //     // Generate a URL to the uploaded video
-        //     $videoUrl = asset('videos/' . $filename);
-        //     // Store the video URL in the 'video' column of the Home model
-        //     $newHome->video = $videoUrl;
-        // }
-
-
-
-        $video = $request->file('video');
-        $video->move('public/videos', $video->getClientOriginalName());
-        $filename = $video->getClientOriginalName();
-        $newHome->video = $filename;
+        if ($video) {
+            $video->move('public/videos', $video->getClientOriginalName());
+            $filename = $video->getClientOriginalName();
+            $homme->video = $filename;
+        }
 
         // Amenities
 
@@ -322,8 +439,8 @@ class AdminController extends Controller
             $AmenModel->save();
         }
 
-        $newHome->save();
+        $homme->save();
 
-        return redirect()->back()->with('message', 'Home Successfully Added!');
+        return redirect('view_homes')->with('message', 'Home Successfully Updated!');
     }
 }

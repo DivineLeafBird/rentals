@@ -45,7 +45,7 @@
                     <li class="nav-item"> <a class="nav-link" href="{{ url('view_slideshow') }}">Add Slideshow</a></li>
                     <li class="nav-item"> <a class="nav-link" href="{{ url('view_category') }}">Add Category</a></li>
                     <li class="nav-item"> <a class="nav-link" href="{{ url('view_amenities') }}">Add Amenities</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="{{ url('view_home') }}">Add Home</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('new_home') }}">Add New Home</a></li>
                     <li class="nav-item"> <a class="nav-link" href="{{ url('view_about') }}">About</a></li>
                     <li class="nav-item"> <a class="nav-link" href="{{ url('view_contact') }}">Contact</a></li>
                 </ul>

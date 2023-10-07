@@ -33,6 +33,9 @@ Route::middleware([
 
 Route::get('/logout', [HomeController::class, 'logout']);
 Route::get('/category', [HomeController::class, 'category']);
+Route::get('/home_details/{home}/details', 'App\Http\Controllers\HomeController@home_details')->name('homeDetails');
+
+
 Route::get('/blog', [HomeController::class, 'blog']);
 Route::get('/community', [HomeController::class, 'community']);
 Route::get('/about', [HomeController::class, 'about']);
@@ -49,7 +52,7 @@ Route::get('/admlogout', [AdminController::class, 'admlogout']);
 Route::match(['GET', 'POST'], '/view_slideshow', [AdminController::class, 'view_slideshow']);
 Route::get('/view_category', [AdminController::class, 'view_category']);
 Route::get('/view_amenities', [AdminController::class, 'view_amenities']);
-Route::get('/view_home', [AdminController::class, 'view_home']);
+Route::get('/new_home', [AdminController::class, 'new_home']);
 Route::get('/view_about', [AdminController::class, 'view_about']);
 Route::get('/view_contact', [AdminController::class, 'view_contact']);
 Route::post('/update_slider', [AdminController::class, 'update_slider']);
@@ -64,3 +67,4 @@ Route::match(['GET', 'POST'], '/add_home', [AdminController::class, 'add_home'])
 Route::get('/view_homes', [AdminController::class, 'view_homes']);
 Route::get('/show_home/{id}', [AdminController::class, 'show_home']);
 Route::get('/delete_home/{id}', [AdminController::class, 'delete_home']);
+Route::match(['GET', 'POST'], '/update_home/{home}', 'App\Http\Controllers\AdminController@update_home')->name('update_home');

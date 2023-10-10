@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AmenHome;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -22,7 +23,22 @@ class HomeController extends Controller
     {
         $slideshows = Slider::all();
         $homes = Home::all();
-        return view('home.userpage', compact('slideshows', compact('homes')));
+
+        $amenityIcons = [
+
+            'Free Parking' => 'bi bi-p-circle icons',
+            'Top Security' => 'bi bi-shield-check icons',
+            'Fresh Water' =>  'bi bi-droplet',
+            'Free WiFi' =>    'bi bi-wifi icons',
+            'Electricity' =>  'bi bi-lightning-charge',
+            'Strong Signal' => 'bi bi-bar-chart',
+            'Garden' =>        'bi bi-tree',
+            'Lobby' =>         'bi bi-bricks',
+            'Fan' =>           'bi bi-fan',
+            'Airport logistics' => 'bi bi-airplane icons',
+        ];
+
+        return view('home.userpage', compact('slideshows', 'homes', 'amenityIcons'));
     }
 
     public function redirect()
@@ -72,7 +88,26 @@ class HomeController extends Controller
     {
         $data = Home::findOrFail($home);
         $images = Imageshome::Where('home_id', $home)->get();
-        return view('home.home_details', compact('data', 'images'));
+
+        $amenityIcons = [
+
+            'Free Parking' => 'bi bi-p-circle icons',
+            'Top Security' => 'bi bi-shield-check icons',
+            'Fresh Water' =>  'bi bi-droplet',
+            'Free WiFi' =>    'bi bi-wifi icons',
+            'Electricity' =>  'bi bi-lightning-charge',
+            'Strong Signal' => 'bi bi-bar-chart',
+            'Garden' =>        'bi bi-tree',
+            'Lobby' =>         'bi bi-bricks',
+            'Fan' =>           'bi bi-fan',
+            'Spa' =>           'bi bi-brightness-alt-high',
+            'Bar' =>           'bi bi-cup-straw',
+            'Airport logistics' => 'bi bi-airplane icons',
+        ];
+
+        $amenities = AmenHome::Where('home_id', $home)->get();
+
+        return view('home.home_details', compact('data', 'images', 'amenityIcons', 'amenities'));
     }
 
 

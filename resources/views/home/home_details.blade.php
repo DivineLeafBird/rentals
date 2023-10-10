@@ -60,6 +60,104 @@
         </div>
 
 
+        <div class="home-details-container">
+            <div class="details-desc">
+                <span><strong>Description:</strong></span>
+            </div>
+            <div class="rating" style="padding-top: 9px">
+                <span class="bi bi-star-fill icons"></span>
+                <span class="bi bi-star-fill icons"></span>
+                <span class="bi bi-star-fill icons"></span>
+                <span class="bi bi-star-half icons"></span>
+                <span class="bi bi-star      icons"></span>
+                <span class="icons"><strong>(3.5)</strong></span>
+
+                <div>
+                    <p style="font-size: 12px; text-align: center;">(1247) reviews</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="description-home">
+            <p>{{ $data->description }}</p>
+        </div>
+
+        <div class="home-details-container">
+            <div class="details-desc">
+                <span><strong>Details:</strong></span>
+            </div>
+
+            <div class="details-desc" style="padding-right: 20%">
+                <span><strong>Amenities</strong></span>
+            </div>
+
+        </div>
+
+        <div class="details-contain">
+            <div class="details-list">
+                <ul>
+                    <li><strong>Location: </strong><span style="padding-left: 20px">{{ $data->region }},
+                            {{ $data->county }}</span>
+                    </li>
+                    <li><strong>Category: </strong><span style="padding-left: 20px">{{ $data->category_name }}</span>
+                    </li>
+                    <li><strong>Distance: </strong><span style="padding-left: 20px">
+                            {{ $data->distance_county_center }} km from town center</span></li>
+                    <li><strong>Rent: </strong><span style="color: green; padding-left:52px;"><strong>KES
+                                {{ $data->rent_price }}
+                            </strong></span>/ <span style="color: blue">
+                            month</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="amenities-card">
+                <div class="amenities-list">
+                    <ul>
+
+                        @foreach ($amenities as $amenity)
+                            @if (array_key_exists($amenity->amenity_name, $amenityIcons))
+                                <li>
+                                    <i class="{{ $amenityIcons[$amenity->amenity_name] }} icons"
+                                        style="font-size:24px"></i>
+                            @endif
+                            <span>{{ $amenity->amenity_name }}</span> </li>
+                        @endforeach
+
+                    </ul>
+                </div>
+
+                <div class="amen-image-container">
+                    <img src="/images/slider.png" alt="Your Image">
+                </div>
+
+            </div>
+        </div>
+
+        <div class="video-container">
+            <h5>Virtual Tour</h5>
+
+            <div class="video-frame">
+                <video width="1300" height="500" controls>
+                    <source src="/videos/{{ $data->video }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+        </div>
+
+
+        <div class="buttons-home-details">
+            <button class="blue-btn"><a href=""> Rent</a></button>
+            <button class="blue-btn"><a href=""> Schedule tour</a></button>
+            <button class="blue-btn"><a href=""> Call
+                    Agency</a></button>
+
+
+        </div>
+
     </section>
 
 

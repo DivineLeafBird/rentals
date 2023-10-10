@@ -1672,3 +1672,145 @@ footer {
     margin-top: 100px;
     margin-bottom: 40px;
 }
+
+.home-details-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+}
+
+.details-desc {
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.description-home {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    padding: 10px;
+}
+
+.details-contain {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.details-list {
+    display: block;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    transform: translateX(-15px);
+}
+
+.details-list ul {
+    list-style-type: none;
+}
+
+/* .amenities-card {
+    display: flex;
+}
+
+.amen-image-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.amen-image-container img {
+    width: 100%;
+    transform: skew(-10deg);
+    transform-origin: top left;
+}
+
+.amenities-list {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+    flex-wrap: wrap;
+}
+
+.amenities-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.amenities-list li {
+    margin-bottom: 5px;
+} */
+
+
+.amenities-card {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px;
+
+    max-width: 450px;
+    border-radius: 5px;
+    margin-right: 7%;
+    box-shadow: 0px 1px 1px 0px var(--blue-color);
+}
+
+.amenities-list {
+    grid-column: span 1;
+    grid-row: span 3;
+    padding: 10px;
+}
+
+.amenities-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.amenities-list li {
+    margin-bottom: 5px;
+}
+
+.amenities-list .icons {
+    margin-right: 5px;
+}
+
+.amen-image-container {
+    grid-column: span 1;
+    grid-row: span 3;
+}
+
+.amen-image-container img {
+    object-fit: cover;
+    width: 100%;
+    height: 205px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.video-container {
+    display: block;
+    padding-top: 8%;
+}
+
+.video-container h5 {
+    margin-left: 20px;
+}
+
+.video-container .video-frame {
+    padding: 20px;
+}
+
+.buttons-home-details {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 10px;
+
+    padding: 20px;
+    padding-bottom: 80px;
+}

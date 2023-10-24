@@ -25,10 +25,7 @@ class Home extends Model
         return $this->belongsToMany(Amenity::class);
     }
 
-    public function videos()
-    {
-        return $this->hasMany(Video::class);
-    }
+
 
     public function calculateDistance($centerLat, $centerLon, $regionLat, $regionLon)
     {

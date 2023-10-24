@@ -28,6 +28,7 @@ class CreateNewUser implements CreatesNewUsers
                 'regex:/^07[0-9]{8}$/',
                 'unique:users,phone',
             ],
+            'county' => ['required', 'string', 'max:255'],
 
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',

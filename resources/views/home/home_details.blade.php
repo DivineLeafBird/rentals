@@ -150,9 +150,12 @@
 
 
         <div class="buttons-home-details">
-            <button class="blue-btn"><a href=""> Rent</a></button>
-            <button class="blue-btn"><a href=""> Schedule tour</a></button>
-            <button class="blue-btn"><a href=""> Call
+            <button class="blue-btn" style="padding: 10px 20px;"><a
+                    href="{{ route('application_form', ['form' => $data->id]) }}"> Rent</a></button>
+            <button class="blue-btn" style="padding: 10px 20px;"><a
+                    href="{{ route('schedule_home', ['schedule' => $data->id]) }}"> Schedule
+                    tour</a></button>
+            <button class="blue-btn" style="padding: 10px 20px;"><a href="{{ route('contact') }}"> Call
                     Agency</a></button>
 
 

@@ -34,15 +34,28 @@ Route::middleware([
 Route::get('/logout', [HomeController::class, 'logout']);
 Route::get('/category', [HomeController::class, 'category']);
 Route::get('/home_details/{home}/details', 'App\Http\Controllers\HomeController@home_details')->name('homeDetails');
+Route::get('/application_form/{form}/form', 'App\Http\Controllers\HomeController@application_form')->name('application_form');
+Route::get('/schedule_home/{schedule}/schedule', 'App\Http\Controllers\HomeController@schedule_home')->name('schedule_home');
+Route::post('/schedule_appointment/{home}/schedule', 'App\Http\Controllers\HomeController@schedule_appointment')->name('schedule_appointment');
+Route::get('/application_status/view', 'App\Http\Controllers\HomeController@application_status')->name('application_status');
+Route::get('/appointment_status/view', 'App\Http\Controllers\HomeController@appointment_status')->name('appointment_status');
+Route::get('/delete_application/{delete}/delete', 'App\Http\Controllers\HomeController@delete_application')->name('delete_application');
+Route::get('/make_payment/{pay}/payment', 'App\Http\Controllers\HomeController@make_payment')->name('make_payment');
 
 
 Route::get('/blog', [HomeController::class, 'blog']);
 Route::get('/community', [HomeController::class, 'community']);
 Route::get('/about', [HomeController::class, 'about']);
-Route::get('/contact', [HomeController::class, 'contact']);
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 
 Route::get('/blogstory', [HomeController::class, 'blogstory']);
 Route::get('/communityreplies', [HomeController::class, 'communityreplies']);
+
+
+
+
+Route::post('/rent_application/{home_id}/apply', 'App\Http\Controllers\HomeController@rent_application')->name('rent_application');
+
 
 
 
@@ -67,4 +80,13 @@ Route::match(['GET', 'POST'], '/add_home', [AdminController::class, 'add_home'])
 Route::get('/view_homes', [AdminController::class, 'view_homes']);
 Route::get('/show_home/{id}', [AdminController::class, 'show_home']);
 Route::get('/delete_home/{id}', [AdminController::class, 'delete_home']);
+
 Route::match(['GET', 'POST'], '/update_home/{home}', 'App\Http\Controllers\AdminController@update_home')->name('update_home');
+Route::get('/sent_applications/view', 'App\Http\Controllers\AdminController@sent_applications')->name('sent_applications');
+Route::get('/sent_appointments/view', 'App\Http\Controllers\AdminController@sent_appointments')->name('sent_appointments');
+
+Route::get('/approve_application/{approve}/approved', 'App\Http\Controllers\AdminController@approve_application')->name('approve_application');
+Route::get('/decline_application/{decline}/declined', 'App\Http\Controllers\AdminController@decline_application')->name('decline_application');
+
+Route::get('/approve_appointment/{approve}/approved', 'App\Http\Controllers\AdminController@approve_appointment')->name('approve_appointment');
+Route::get('/decline_appointment/{decline}/declined', 'App\Http\Controllers\AdminController@decline_appointment')->name('decline_appointment');

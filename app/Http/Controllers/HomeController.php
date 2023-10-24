@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\AmenHome;
+use App\Models\Schedule;
+use App\Models\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -108,6 +110,134 @@ class HomeController extends Controller
         $amenities = AmenHome::Where('home_id', $home)->get();
 
         return view('home.home_details', compact('data', 'images', 'amenityIcons', 'amenities'));
+    }
+
+    public function application_form($form)
+    {
+        if (Auth::check()) {
+            $home = Home::findOrFail($form);
+            return view('home.application', compact('home'));
+        } else {
+
+            return redirect::to('/login');
+        }
+    }
+
+    public function rent_application(Request $request, $home_id)
+    {
+        $newApplication = new Application();
+
+        $userID = auth()->user()->id;
+
+        $newApplication->user_id = $userID;
+        $newApplication->home_id = $home_id;
+        $newApplication->name = $request->input('name');
+        $newApplication->email = $request->input('email');
+        $newApplication->phone = $request->input('phone');
+        $newApplication->dob = $request->input('dob');
+        $newApplication->id_number = $request->input('national_id');
+        $newApplication->move_in_date = $request->input('move_in_date');
+        $newApplication->rental_duration = $request->input('rental_duration');
+        $newApplication->total_rent = $request->input('total_rent');
+        $newApplication->more_info = $request->input('comments');
+
+        $newApplication->save();
+
+
+        $user = User::findorFail($userID);
+        $user->dob = $request->input('dob');
+        $user->id_number = $request->input('national_id');
+
+        // Check if the input values are not empty and different from the current values
+        if (!empty($dob) && $dob !== $user->dob) {
+            $user->dob = $dob;
+        }
+
+        if (!empty($nationalId) && $nationalId !== $user->id_number) {
+            $user->id_number = $nationalId;
+        }
+
+
+        $user->save();
+
+        return redirect()->back()->with('message', 'Application Successfully Sent!');
+    }
+
+
+    public function schedule_home($schedule)
+    {
+        if (Auth::check()) {
+            $home = Home::findOrFail($schedule);
+
+            return view('home.appointment_form', compact('home'));
+        } else {
+            return redirect::to('/login');
+        }
+    }
+
+    public function schedule_appointment(Request $request, $home)
+    {
+        $newShedule = new Schedule();
+
+        $userID = auth()->user()->id;
+        $newShedule->user_id = $userID;
+        $newShedule->home_id = $home;
+        $newShedule->name = $request->input('name');
+        $newShedule->email = $request->input('email');
+        $newShedule->phone = $request->input('phone');
+        $newShedule->id_number = $request->input('national_id');
+        $newShedule->tour_date = $request->input('tour_date');
+        $newShedule->tour_time = $request->input('tour_time');
+        $newShedule->more_info = $request->input('comments');
+
+        $newShedule->save();
+
+        $user = User::findorFail($userID);
+        $user->id_number = $request->input('national_id');
+
+        if (!empty($nationalId) && $nationalId !== $user->id_number) {
+            $user->id_number = $nationalId;
+        }
+
+        $user->save();
+
+        return redirect()->back()->with('message', 'Application Successfully Sent!');
+    }
+
+
+    public function application_status()
+    {
+        $applications = Application::with('home')
+            ->where('user_id', auth()->user()->id)
+            ->get();
+
+        return view('home.application_status', compact('applications'));
+    }
+
+
+    public function appointment_status()
+    {
+        $appointments = Schedule::with('home')
+            ->where('user_id', auth()->user()->id)
+            ->get();
+
+        return view('home.appointment_status', compact('appointments'));
+    }
+
+    public function delete_application($delete)
+    {
+        $delete_application = Application::findOrFail($delete);
+
+        $delete_application->delete();
+
+        return redirect()->back()->with('message_type', 'error')->with('message', ' Application Deleted Successfully! ');
+    }
+
+
+    public function make_payment($pay)
+    {
+        $payment = Application::Where('id', $pay)->first();
+        return view('home.payment', compact('payment'));
     }
 
 

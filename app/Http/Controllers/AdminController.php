@@ -15,6 +15,8 @@ use App\Models\Amenity;
 use App\Models\AmenHome;
 use App\Models\Blog;
 use App\Models\Imageshome;
+use App\Models\Application;
+use App\Models\Schedule;
 
 
 class AdminController extends Controller
@@ -442,5 +444,116 @@ class AdminController extends Controller
         $homme->save();
 
         return redirect('view_homes')->with('message', 'Home Successfully Updated!');
+    }
+
+    public function sent_applications()
+    {
+        $counties = County::all();
+        $applications = Application::all();
+
+        foreach ($applications as $application) {
+            $home = $application->home_id;
+            $homeRecords = Home::Where('id', $home)->get();
+        }
+
+        return view('admin.pages.rent_applications', compact('counties', 'applications', 'homeRecords'));
+    }
+
+    public function approve_application($approve)
+    {
+        // Ensure $approve is a valid application ID.
+        $application = Application::find($approve);
+
+        if (!$application) {
+            return redirect()->back()->with('message_type', 'error')->with('message', 'Application not found.');
+        }
+
+        // Check if the application is already approved.
+        if ($application->application_status === 'Approved') {
+            return redirect()->back()->with('message_type', 'warning')->with('message', 'Application is already approved.');
+        }
+
+        // Update the application status to 'Approved'.
+        $application->application_status = 'Approved';
+        $application->save();
+
+        return redirect()->back()->with('message_type', 'success')->with('message', 'Rent Application successfully approved!');
+    }
+
+    public function decline_application($decline)
+    {
+        // Ensure $decline is a valid application ID.
+        $application = Application::find($decline);
+
+        if (!$application) {
+            return redirect()->back()->with('message_type', 'error')->with('message', 'Application not found.');
+        }
+
+        // Check if the application is already declined.
+        if ($application->application_status === 'Declined') {
+            return redirect()->back()->with('message_type', 'warning')->with('message', 'Application is already declined.');
+        }
+
+        // Update the application status to 'Declined'.
+        $application->application_status = 'Declined';
+        $application->save();
+
+        return redirect()->back()->with('message_type', 'success')->with('message', 'Rent Application successfully declined.');
+    }
+
+    public function sent_appointments()
+    {
+        $counties = County::all();
+        $appointments = Schedule::all();
+
+        foreach ($appointments as $appointment) {
+            $home = $appointment->home_id;
+            $homeRecords = Home::Where('id', $home)->get();
+        }
+
+        return view('admin.pages.tour_appointment', compact('counties', 'appointments', 'homeRecords'));
+    }
+
+
+    public function approve_appointment($approve)
+    {
+        // Ensure $approve is a valid application ID.
+        $appointment = Schedule::find($approve);
+
+        if (!$appointment) {
+            return redirect()->back()->with('message_type', 'error')->with('message', 'Application not found.');
+        }
+
+        // Check if the application is already approved.
+        if ($appointment->application_status === 'Approved') {
+            return redirect()->back()->with('message_type', 'warning')->with('message', 'Application is already approved.');
+        }
+
+        // Update the application status to 'Approved'.
+        $appointment->application_status = 'Approved';
+        $appointment->save();
+
+        return redirect()->back()->with('message_type', 'success')->with('message', 'Rent Application successfully approved!');
+    }
+
+    public function decline_appointment($decline)
+    {
+        // Ensure $decline is a valid application ID.
+        $appointment = Schedule::find($decline);
+
+        if (!$appointment) {
+            return redirect()->back()->with('message_type', 'error')->with('message', 'Application not found.');
+        }
+
+        // Check if the application is already declined.
+        if ($appointment->application_status === 'Declined') {
+            return redirect()->back()->with('message_type', 'warning')->with('message', 'Application is already declined.');
+        }
+
+        // Update the application status to 'Declined'.
+        $appointment->application_status = 'Declined';
+        $appointment->save();
+
+        return redirect()->back()->with('message_type', 'success')->with('message', 'Rent Application successfully declined.');
     }
 }

@@ -137,9 +137,11 @@
 
                                         <a href=""><span><i class="bi bi-graph-up profile-icons"></i>
                                                 Activity</span></a>
-                                        <a href=""><span><i class="bi bi-heart profile-icons"></i>
-                                                Favorites</span></a>
-                                        <a href=""><span><i class="bi bi-list-ul profile-icons"></i>
+                                        <a href="{{ route('application_status') }}"><span><i
+                                                    class="bi bi-heart profile-icons"></i>
+                                                Applications</span></a>
+                                        <a href="{{ route('appointment_status') }}"><span><i
+                                                    class="bi bi-list-ul profile-icons"></i>
                                                 Appointments</span></a>
                                         <a href=""><span><i class="bi bi-person-badge-fill profile-icons"></i>
                                                 Membership</span></a>

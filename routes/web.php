@@ -41,6 +41,7 @@ Route::get('/application_status/view', 'App\Http\Controllers\HomeController@appl
 Route::get('/appointment_status/view', 'App\Http\Controllers\HomeController@appointment_status')->name('appointment_status');
 Route::get('/delete_application/{delete}/delete', 'App\Http\Controllers\HomeController@delete_application')->name('delete_application');
 Route::get('/make_payment/{pay}/payment', 'App\Http\Controllers\HomeController@make_payment')->name('make_payment');
+Route::post('/process_payment{app}/{total}/paid', 'App\Http\Controllers\HomeController@process_payment')->name('process_payment');
 
 
 Route::get('/blog', [HomeController::class, 'blog']);

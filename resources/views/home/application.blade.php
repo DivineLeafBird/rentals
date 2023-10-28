@@ -124,7 +124,10 @@
             <input type="number" id="rental_duration" name="rental_duration" required>
 
             <label for="total_rent">Total Rent (KES):</label>
-            <input type="number" id="total_rent" name="total_rent" required>
+            <input type="number" id="total_rent" name="total_rent" readonly>
+
+
+
 
             <label for="comments">Additional Comments:</label>
             <textarea id="comments" name="comments" rows="4"></textarea>
@@ -198,6 +201,24 @@
     <script src="/home/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
+    </script>
+
+    <script>
+        // Get the rent price from your controller or model
+        var rentPrice = {{ $home->rent_price }}; // Replace with your actual variable
+
+        // Add an event listener to the rental duration input
+        var rentalDurationInput = document.getElementById('rental_duration');
+        rentalDurationInput.addEventListener('input', function() {
+            // Get the selected rental duration
+            var rentalDuration = parseInt(this.value);
+
+            // Calculate the total rent
+            var totalRent = rentalDuration * rentPrice;
+
+            // Update the total rent input field
+            document.getElementById('total_rent').value = totalRent;
+        });
     </script>
 </body>
 

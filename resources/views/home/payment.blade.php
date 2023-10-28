@@ -80,58 +80,73 @@
     <!-- End of Header Section -->
 
     <section>
-        @if (session()->has('message'))
-            @php
-                $messageType = session()->get('message_type', 'info'); // Default to 'info' if no type is set
-            @endphp
 
-            @if ($messageType === 'success')
-                <div class="alert alert-success">
-                @elseif ($messageType === 'warning')
-                    <div class="alert alert-warning">
-                    @elseif ($messageType === 'error')
-                        <div class="alert alert-danger">
-                        @else
-                            <div class="alert alert-info"> {{-- A default alert type in case no message_type is set --}}
-            @endif
-
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
-            {{ session()->get('message') }}
-
-            </div>
-        @endif
+        <form role="form"
+            action="{{ route('process_payment', ['app' => $payment->id, 'total' => $payment->total_rent]) }}"
+            method="POST">
+            @csrf
 
 
-        <div class="container mt-3 d-flex justify-content-center main">
-            <div class="card">
+
+            <div class="container mt-3 d-flex justify-content-center main">
+                <div class="card">
+                    @if (session()->has('message'))
+                        @php
+                            $messageType = session()->get('message_type', 'info'); // Default to 'info' if no type is set
+                        @endphp
+
+                        @if ($messageType === 'success')
+                            <div class="alert alert-success">
+                            @elseif ($messageType === 'warning')
+                                <div class="alert alert-warning">
+                                @elseif ($messageType === 'error')
+                                    <div class="alert alert-danger">
+                                    @else
+                                        <div class="alert alert-info"> {{-- A default alert type in case no message_type is set --}}
+                        @endif
+
+                        {{ session()->get('message') }}
+
+                </div>
+                @endif
+
                 <div class="d-flex justify-content-between px-3 pt-4">
                     <span class="pay">Amount</span>
                     <div class="amount">
                         <div class="inner">
                             <span class="dollar">KES</span>
-                            <span class="total">1000</span>
+                            <span class="total">{{ $payment->total_rent }}</span>
                         </div>
                     </div>
+                </div>
+                <div class="px-3 pt-3">
+                    <label for="name card" class="d-flex justify-content-between">
+                        <span class="labeltxt"> </span>
+                    </label>
+                    <input type="text" name="name_on_card" class="form-control card-name" placeholder="Name on Card">
                 </div>
 
                 <div class="px-3 pt-3">
                     <label for="card number" class="d-flex justify-content-between">
                         <span class="labeltxt">CARD NUMBER</span>
                     </label>
-                    <input type="number" name="number" class="form-control inputtxt"
-                        placeholder="8881 2553 4678 2345">
+                    <input type="text" name="cardNumber" class="form-control card-number"
+                        placeholder="8881 2553 4678 2345" pattern="\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}"
+                        maxlength="19" oninput="formatCreditCardNumber(this)">
                 </div>
 
                 <div class="d-flex justify-content-between px-3 pt-4">
                     <div>
                         <label for="date" class="exptxt">Expiry</label>
-                        <input type="number" name="number" class="form-control expiry" placeholder="MM / YY">
+                        <input type="text" name="expiry" class="form-control card-expiry" placeholder="MM / YY"
+                            pattern="\d{2}[/\s]\d{2}" maxlength="5" oninput="formatMMYY(this)">
 
                     </div>
 
                     <div>
-                        <label for="cvv" class="cvvtxt">Expiry</label>
-                        <input type="number" name="number" class="form-control cvv" placeholder="123">
+                        <label for="cvv" class="cvvtxt">CVV</label>
+                        <input type="text" name="cvv" class="form-control card-cvv" placeholder="123"
+                            pattern="\d{3}" maxlength="3">
 
                     </div>
                 </div>
@@ -139,7 +154,7 @@
                 <div class="d-flex align-content-center  justify-content-end px-3 pt-4">
 
                     <div>
-                        <button type="button" class="btn payment">Pay</button>
+                        <button type="submit" class="btn payment">Pay</button>
                     </div>
 
                 </div>
@@ -148,8 +163,9 @@
 
             </div>
 
-        </div>
+            </div>
 
+        </form>
 
 
     </section>
@@ -161,51 +177,43 @@
     @include('home.footer')
 
     <!-- Footer End -->
-    <script>
-        var logoutTimer;
-
-        function startLogoutTimer() {
-            var timeoutDuration = 30 * 60 * 1000; // Set timeout
-
-            logoutTimer = setTimeout(function() {
-                // Perform AJAX logout request or redirect to the logout endpoint
-                window.location.href = '/logout';
-            }, timeoutDuration);
-        }
-
-        function resetLogoutTimer() {
-            clearTimeout(logoutTimer);
-            startLogoutTimer();
-        }
-
-        // Calls the resetLogoutTimer() function whenever the user performs any activity, such as clicking a button or making an AJAX request.
-        document.addEventListener('click', function() {
-            if (document.visibilityState === "visible") {
-                resetLogoutTimer();
-            }
-        });
-
-        // Starts the logout timer initially when the page loads
-        if (document.visibilityState === "visible") {
-            startLogoutTimer();
-        }
-
-        // Listens for changes in the visibility state
-        document.addEventListener("visibilitychange", function() {
-            if (document.visibilityState === "visible") {
-                // Page is now active
-                startLogoutTimer();
-            } else {
-                // Page is not active
-                clearTimeout(logoutTimer);
-            }
-        });
-    </script>
 
     <script src="/home/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
     </script>
+
+    <script>
+        function formatCreditCardNumber(input) {
+            // Remove any non-numeric characters and spaces
+            const cleanedValue = input.value.replace(/[^\d]/g, '');
+
+            // Add space after every four digits
+            const formattedValue = cleanedValue.replace(/(\d{4})(?=\d)/g, '$1 ');
+
+            // Set the formatted value back to the input field
+            input.value = formattedValue;
+        }
+    </script>
+
+    <script>
+        function formatMMYY(input) {
+            // Remove any non-numeric characters and spaces
+            const cleanedValue = input.value.replace(/[^\d]/g, '');
+
+            // Format as MM/YY without space
+            if (cleanedValue.length > 2) {
+                const month = cleanedValue.slice(0, 2);
+                const year = cleanedValue.slice(2, 4);
+                input.value = month + '/' + year;
+            } else {
+                input.value = cleanedValue;
+            }
+        }
+    </script>
+
+
+
 </body>
 
 </html>

@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AmenHome;
-use App\Models\Schedule;
-use App\Models\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -12,6 +9,9 @@ use App\Models\User;
 use App\Models\Slider;
 use App\Models\County;
 use App\Models\Region;
+use App\Models\AmenHome;
+use App\Models\Schedule;
+use App\Models\Application;
 use App\Models\Blog;
 use App\Models\Category;
 use App\Models\Community;
@@ -239,6 +239,59 @@ class HomeController extends Controller
         $payment = Application::Where('id', $pay)->first();
         return view('home.payment', compact('payment'));
     }
+
+    public function process_payment(Request $request, $app, $total)
+    {
+
+        $application = Application::Where('id', $app)->first();
+
+        $cardName = $request->input('name_on_card');
+        $cardNumber = str_replace(' ', '', $request->input('cardNumber')); // Remove spaces from card number
+        $expiry = $request->input('expiry');
+        $cvv = $request->input('cvv');
+
+        // Validate card details
+        $validCard = $this->validateCardDetails($cardNumber, $expiry, $cvv);
+
+        if ($validCard) {
+
+            // Update the application status to 'Paid'.
+            $application->application_status = 'Paid';
+            $application->save();
+
+            if ($application) {
+                $home = Home::findOrFail($application->home_id);
+                if ($home) {
+                    $home->decrement('inventory', 1);
+                    $home->save();
+                }
+            }
+
+            // Redirect with success message
+            return redirect()->back()->with('message_type', 'success')->with('message', 'Payment of KES ' . $total . ' processed successfully!');
+        } else {
+            // Redirect back with error message
+            return redirect()->back()->with('message_type', 'error')->with('message', 'Invalid card details. Please check your card information and try again.');
+        }
+    }
+
+    private function validateCardDetails($cardNumber, $expiry, $cvv)
+    {
+        // Check if the card number is 16 digits
+        $isCardNumberValid = preg_match('/^\d{16}$/', $cardNumber);
+
+        // Check if the expiry is in MM/YY format and meets the conditions
+        $expiryParts = explode('/', $expiry);
+        $isExpiryValid = (count($expiryParts) === 2) && (strlen($expiryParts[0]) === 2) && (strlen($expiryParts[1]) === 2)
+            && ($expiryParts[0] >= 1) && ($expiryParts[0] <= 12) && ($expiryParts[1] >= 23); // Adjust year validation as required
+
+        // Check if the CVV is 3 digits
+        $isCVVValid = preg_match('/^\d{3}$/', $cvv);
+
+        // Return true if all conditions are met, otherwise false
+        return $isCardNumberValid && $isExpiryValid && $isCVVValid;
+    }
+
 
 
 

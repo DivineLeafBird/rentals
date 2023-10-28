@@ -199,7 +199,7 @@
                                                     </td>
 
                                                 </tr>
-                                                <tr>
+                                                {{-- <tr>
 
                                                     <td style="font-weight:700"><label for="discount"></label>
                                                         Discounted Price :</td>
@@ -208,7 +208,7 @@
                                                             style="background: transparent; border:none; outline:none; color:#fff; padding:8px;">
                                                     </td>
 
-                                                </tr>
+                                                </tr> --}}
                                                 <tr>
                                                     <td style="font-weight:700"><label for="county"></label> County
                                                         :</td>

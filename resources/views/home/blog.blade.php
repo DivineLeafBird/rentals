@@ -166,7 +166,7 @@
                     </div>
                 </div>
 
-                <div class="m-auto">
+                {{-- <div class="m-auto">
                     <div class="pagination mt-5 pt-4">
                         <ul class="list-inline">
                             <li class="list-inline-item"><a href="#" class="active">1</a></li>
@@ -178,7 +178,7 @@
                                       
                         </ul>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </section>

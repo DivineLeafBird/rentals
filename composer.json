@@ -11,6 +11,7 @@
         "laravel/jetstream": "^3.0",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
+        "laravolt/avatar": "^5.0",
         "livewire/livewire": "^2.11",
         "stripe/stripe-php": "^13.1"
     },

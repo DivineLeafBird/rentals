@@ -11,12 +11,15 @@ use App\Models\County;
 use App\Models\Region;
 use App\Models\AmenHome;
 use App\Models\Schedule;
+use App\Models\Tenant;
 use App\Models\Application;
 use App\Models\Blog;
 use App\Models\Category;
 use App\Models\Community;
 use App\Models\Home;
 use App\Models\Imageshome;
+use App\Models\Message;
+
 
 class HomeController extends Controller
 {
@@ -24,7 +27,10 @@ class HomeController extends Controller
     public function index()
     {
         $slideshows = Slider::all();
-        $homes = Home::all();
+        $homes = Home::paginate(5);
+
+        // Randomly pick one home
+        $randomHome = Home::inRandomOrder()->first();
 
         $amenityIcons = [
 
@@ -37,10 +43,24 @@ class HomeController extends Controller
             'Garden' =>        'bi bi-tree',
             'Lobby' =>         'bi bi-bricks',
             'Fan' =>           'bi bi-fan',
+            'Spa' =>           'bi bi-brightness-alt-high',
+            'Bar' =>           'bi bi-cup-straw',
             'Airport logistics' => 'bi bi-airplane icons',
         ];
 
-        return view('home.userpage', compact('slideshows', 'homes', 'amenityIcons'));
+        // Fetch amenities for the randomly picked home
+        $amenitiesrand = AmenHome::where('home_id', $randomHome->id)->get();
+
+        $images = Imageshome::Where('home_id', $randomHome->id)->get();
+
+        // Fetch amenities for each home
+        $amenities = []; // Initialize an empty array
+
+        foreach ($homes as $home) {
+            $amenities[$home->id] = AmenHome::where('home_id', $home->id)->get();
+        }
+
+        return view('home.userpage', compact('slideshows', 'homes', 'amenityIcons', 'amenities', 'randomHome', 'amenitiesrand', 'images'));
     }
 
     public function redirect()
@@ -160,6 +180,22 @@ class HomeController extends Controller
 
         $user->save();
 
+        if ($newApplication) {
+            $newMessage = new Message();
+
+            $admin = User::Where('usertype', 1)->first();
+
+            $newMessage->sender_id = $admin->id;
+            $newMessage->sender_name = $admin->name;
+
+            $newMessage->receipient_id = auth()->user()->id;
+            $newMessage->receipient_name = auth()->user()->name;
+
+            $newMessage->message = 'Hi ' . auth()->user()->name . ', we have received your application and it is currently being processed. We\'ll get back to you shortly. Thank you!';
+
+            $newMessage->save();
+        }
+
         return redirect()->back()->with('message', 'Application Successfully Sent!');
     }
 
@@ -200,6 +236,23 @@ class HomeController extends Controller
         }
 
         $user->save();
+
+        if ($newShedule) {
+
+            $newMessage = new Message();
+
+            $admin = User::Where('usertype', 1)->first();
+
+            $newMessage->sender_id = $admin->id;
+            $newMessage->sender_name = $admin->name;
+
+            $newMessage->receipient_id = auth()->user()->id;
+            $newMessage->receipient_name = auth()->user()->name;
+
+            $newMessage->message = 'Hello ' . auth()->user()->name . ', we have received your appointment request and it is currently being processed. We\'ll get back to you shortly. Thank you!';
+
+            $newMessage->save();
+        }
 
         return redirect()->back()->with('message', 'Application Successfully Sent!');
     }
@@ -267,6 +320,52 @@ class HomeController extends Controller
                 }
             }
 
+            if ($application) {
+
+                // Get the authenticated user's ID
+                $userId = auth()->user()->id;
+
+                $newTenant = new Tenant();
+
+                $newTenant->user_id = $userId;
+
+                $newTenant->home_id = $application->home_id;
+                $newTenant->name = $application->name;
+                $newTenant->email = $application->email;
+                $newTenant->dob = $application->dob;
+                $newTenant->id_number = $application->id_number;
+                $newTenant->phone = $application->phone;
+                $newTenant->move_in_date = $application->move_in_date;
+                $newTenant->rental_duration = $application->rental_duration;
+
+                $rentDurationInMonths = $newTenant->rental_duration;
+
+                // Calculate the lease expiry date based on the rent duration
+                $expiryDate = date('Y-m-d', strtotime('+' . $rentDurationInMonths . ' months'));
+
+                $newTenant->lease_expiry = $expiryDate;
+
+                $newTenant->save();
+
+
+                if ($newTenant) {
+
+                    $newMessage = new Message();
+
+                    $admin = User::Where('usertype', 1)->first();
+
+                    $newMessage->sender_id = $admin->id;
+                    $newMessage->sender_name = $admin->name;
+
+                    $newMessage->receipient_id = auth()->user()->id;
+                    $newMessage->receipient_name = auth()->user()->name;
+
+                    $newMessage->message = 'Hello ' . auth()->user()->name . ', your payment was successful. Thank you for choosing us. Your space will be ready within 3 business days. We\'ll get back to you shortly with more details. Thank you!';
+
+                    $newMessage->save();
+                }
+            }
+
             // Redirect with success message
             return redirect()->back()->with('message_type', 'success')->with('message', 'Payment of KES ' . $total . ' processed successfully!');
         } else {
@@ -292,6 +391,35 @@ class HomeController extends Controller
         return $isCardNumberValid && $isExpiryValid && $isCVVValid;
     }
 
+    public function membership()
+    {
+        $tenants = Tenant::with('home')->get();
+
+        return view('home.membership', compact('tenants'));
+    }
+
+    public function received_messages()
+    {
+        $messages = Message::Where('receipient_id', auth()->user()->id)->get();
+
+        return view('home.messages', compact('messages'));
+    }
+
+    public function message_delete($msg)
+    {
+        $msgDel = Message::findOrFail($msg);
+
+        $msgDel->delete();
+
+        if ($msgDel) {
+            // Redirect with success message
+            return redirect()->back()->with('message_type', 'success')->with('message', 'Message Deleted successfully!');
+        } else {
+            // Redirect back with error message
+            return redirect()->back()->with('message_type', 'error')->with('message', 'An Error Occurred try again.');
+        }
+    }
+
 
 
 
@@ -307,7 +435,37 @@ class HomeController extends Controller
 
     public function community()
     {
-        return view('home.community');
+        $posts = Community::all();
+
+        return view('home.community', compact('posts'));
+    }
+
+
+    public function comm_post(Request $request)
+    {
+
+        $newPost = new Community();
+
+        $newPost->user_id = auth()->user()->id;
+        $newPost->name = auth()->user()->name;
+        $newPost->title = $request->input('heading');
+        $newPost->message = $request->input('topic');
+
+        $image = $request->image;
+        $imagename = time() . '.' . $image->getClientOriginalExtension();
+        $request->image->move('commpstimg', $imagename);
+        $newPost->image = $imagename;
+
+
+        $newPost->save();
+
+        if ($newPost) {
+            // Redirect with success message
+            return redirect()->back()->with('message_type', 'success')->with('message', 'Post successful!');
+        } else {
+            // Redirect back with error message
+            return redirect()->back()->with('message_type', 'error')->with('message', 'An Error Occurred try again.');
+        }
     }
 
     public function about()

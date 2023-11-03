@@ -8,8 +8,8 @@
             <p><a href="{{ url('blog') }}">Blog</a></p>
             <p><a href="">Rewards</a></p>
             <p><a href="">Careers</a></p>
-            <p><a href="">FAQs</a></p>
-            <p><a href="">Support</a></p>
+            <p><a href="{{ url('contact') }}">FAQs</a></p>
+            <p><a href="{{ url('contact') }}">Support</a></p>
 
         </div>
 
@@ -28,7 +28,7 @@
             <p><a href="">Affiliate partnership</a></p>
             <p><a href="">Influencer partnership</a></p>
             <p><a href="">Partner Hub</a></p>
-            <p><a href="">Enquires</a></p>
+            <p><a href="{{ url('contact') }}">Enquires</a></p>
 
         </div>
 

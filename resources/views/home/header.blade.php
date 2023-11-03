@@ -119,7 +119,8 @@
                                         <div class="socials">
                                             <h5>Connect With Us</h5>
 
-                                            <a href=""><span><i class="bi bi-pie-chart-fill profile-icons"></i>
+                                            <a href="{{ url('blog') }}"><span><i
+                                                        class="bi bi-pie-chart-fill profile-icons"></i>
                                                     Blog</span></a>
                                             <a href=""><span><i class="bi bi-facebook profile-icons"></i>
                                                     Facebook</span></a>
@@ -143,15 +144,18 @@
                                         <a href="{{ route('appointment_status') }}"><span><i
                                                     class="bi bi-list-ul profile-icons"></i>
                                                 Appointments</span></a>
-                                        <a href=""><span><i class="bi bi-person-badge-fill profile-icons"></i>
+                                        <a href="{{ route('membership') }}"><span><i
+                                                    class="bi bi-person-badge-fill profile-icons"></i>
                                                 Membership</span></a>
-                                        <a href=""><span><i class="bi bi-chat-square-text-fill profile-icons"></i>
+                                        <a href="{{ route('received_messages') }}"><span><i
+                                                    class="bi bi-chat-square-text-fill profile-icons"></i>
                                                 Messages</span></a>
                                         <a href=""><span><i class="bi bi-people-fill profile-icons"></i>
                                                 Referrals</span></a>
                                         <a href=""><span><i class="bi bi-gear-fill profile-icons"></i>
                                                 Settings</span></a>
-                                        <a href=""><span><i class="bi bi-info-circle profile-icons"></i> Get
+                                        <a href="{{ url('contact') }}"><span><i
+                                                    class="bi bi-info-circle profile-icons"></i> Get
                                                 Help</span></a>
 
 

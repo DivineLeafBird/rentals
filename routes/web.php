@@ -42,6 +42,12 @@ Route::get('/appointment_status/view', 'App\Http\Controllers\HomeController@appo
 Route::get('/delete_application/{delete}/delete', 'App\Http\Controllers\HomeController@delete_application')->name('delete_application');
 Route::get('/make_payment/{pay}/payment', 'App\Http\Controllers\HomeController@make_payment')->name('make_payment');
 Route::post('/process_payment{app}/{total}/paid', 'App\Http\Controllers\HomeController@process_payment')->name('process_payment');
+Route::get('/membership/view', 'App\Http\Controllers\HomeController@membership')->name('membership');
+
+Route::post('/send_messages/send', 'App\Http\Controllers\HomeController@send_messages')->name('send_messages');
+Route::get('/received_messages/view', 'App\Http\Controllers\HomeController@received_messages')->name('received_messages');
+Route::get('/message_delete/{msg}/delete', 'App\Http\Controllers\HomeController@message_delete')->name('message_delete');
+Route::post('/comm_post/post', 'App\Http\Controllers\HomeController@comm_post')->name('comm_post');
 
 
 Route::get('/blog', [HomeController::class, 'blog']);
@@ -91,3 +97,9 @@ Route::get('/decline_application/{decline}/declined', 'App\Http\Controllers\Admi
 
 Route::get('/approve_appointment/{approve}/approved', 'App\Http\Controllers\AdminController@approve_appointment')->name('approve_appointment');
 Route::get('/decline_appointment/{decline}/declined', 'App\Http\Controllers\AdminController@decline_appointment')->name('decline_appointment');
+
+Route::get('/tenants/view', 'App\Http\Controllers\AdminController@tenants')->name('tenants');
+Route::get('/messages/view', 'App\Http\Controllers\AdminController@messages')->name('messages');
+
+
+// Message Controller

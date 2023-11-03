@@ -17,6 +17,8 @@ use App\Models\Blog;
 use App\Models\Imageshome;
 use App\Models\Application;
 use App\Models\Schedule;
+use App\Models\Tenant;
+use App\Models\Message;
 
 
 class AdminController extends Controller
@@ -477,6 +479,26 @@ class AdminController extends Controller
         $application->application_status = 'Approved';
         $application->save();
 
+        if ($application) {
+
+            $newMessage = new Message();
+
+            $admin = User::Where('usertype', 1)->first();
+
+            $newMessage->sender_id = $admin->id;
+            $newMessage->sender_name = $admin->name;
+
+            $receipient = Application::Where('id', $approve)->first();
+
+            $newMessage->receipient_id = $receipient->user_id;
+            $newMessage->receipient_name = $receipient->name;
+
+
+            $newMessage->message = 'Hello , your application has been APPROVED you can proceed to payment.';
+
+            $newMessage->save();
+        }
+
         return redirect()->back()->with('message_type', 'success')->with('message', 'Rent Application successfully approved!');
     }
 
@@ -497,6 +519,25 @@ class AdminController extends Controller
         // Update the application status to 'Declined'.
         $application->application_status = 'Declined';
         $application->save();
+
+        if ($application) {
+
+            $newMessage = new Message();
+
+            $admin = User::Where('usertype', 1)->first();
+
+            $newMessage->sender_id = $admin->id;
+            $newMessage->sender_name = $admin->name;
+
+            $receipient = Application::Where('id', $decline)->first();
+
+            $newMessage->receipient_id = $receipient->user_id;
+            $newMessage->receipient_name = $receipient->name;
+
+            $newMessage->message = 'Hello , your application has been DECLINED. Please contact us for any queries.';
+
+            $newMessage->save();
+        }
 
         return redirect()->back()->with('message_type', 'success')->with('message', 'Rent Application successfully declined.');
     }
@@ -533,6 +574,25 @@ class AdminController extends Controller
         $appointment->application_status = 'Approved';
         $appointment->save();
 
+        if ($appointment) {
+
+            $newMessage = new Message();
+
+            $admin = User::Where('usertype', 1)->first();
+
+            $newMessage->sender_id = $admin->id;
+            $newMessage->sender_name = $admin->name;
+
+            $receipient = Schedule::Where('id', $approve)->first();
+
+            $newMessage->receipient_id = $receipient->user_id;
+            $newMessage->receipient_name = $receipient->name;
+
+            $newMessage->message = 'Hello, your appointment has been APPROVED. Please be punctual.';
+
+            $newMessage->save();
+        }
+
         return redirect()->back()->with('message_type', 'success')->with('message', 'Rent Application successfully approved!');
     }
 
@@ -554,6 +614,42 @@ class AdminController extends Controller
         $appointment->application_status = 'Declined';
         $appointment->save();
 
+        if ($appointment) {
+
+            $newMessage = new Message();
+
+            $admin = User::Where('usertype', 1)->first();
+
+            $newMessage->sender_id = $admin->id;
+            $newMessage->sender_name = $admin->name;
+
+            $receipient = Schedule::Where('id', $decline)->first();
+
+            $newMessage->receipient_id = $receipient->user_id;
+            $newMessage->receipient_name = $receipient->name;
+
+            $newMessage->message = 'Hello , your appointment has been DECLINED. Our tour agents are fully booked please book for next week.';
+
+            $newMessage->save();
+        }
+
         return redirect()->back()->with('message_type', 'success')->with('message', 'Rent Application successfully declined.');
+    }
+
+    public function tenants()
+    {
+        $counties = County::all();
+
+        $tenants = Tenant::with('home')->get();
+
+
+        return view('admin.pages.tenants', compact('counties', 'tenants'));
+    }
+
+
+    public function messages()
+    {
+        $counties = County::all();
+        return view('admin.pages.messages', compact('counties'));
     }
 }

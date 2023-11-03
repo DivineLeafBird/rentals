@@ -66,10 +66,6 @@
             </button>
 
             <button class="category-opts-btn">
-                Double room
-            </button>
-
-            <button class="category-opts-btn">
                 Bed-sitter
             </button>
 
@@ -97,7 +93,7 @@
                 <p>Search Resuts For:""</p>
 
             </div>
-            <div class="filter">
+            {{-- <div class="filter">
 
                 <form action="">
                     <i class="bi bi-funnel-fill filter-icon"></i>
@@ -117,7 +113,7 @@
                                 class="bi bi-arrow-up-square-fill filter-icon"></i></button> Highest</span>
 
                 </div>
-            </div>
+            </div> --}}
         </div>
 
     </section>

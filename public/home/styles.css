@@ -1924,3 +1924,23 @@ textarea {
     border: none;
     color: var(--white-color);
 }
+
+.about-section {
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    display: block;
+
+    background-color: #f0ecec6c;
+    padding: 20px;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+.about-section h1 {
+    padding-bottom: 10px;
+}
+
+.about-section a {
+    text-decoration: none;
+    color: var(--light-black);
+}

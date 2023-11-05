@@ -25,6 +25,10 @@ class Home extends Model
         return $this->belongsToMany(Amenity::class);
     }
 
+    public function tenants()
+    {
+        return $this->hasMany(Tenant::class, 'home_id', 'id');
+    }
 
 
     public function calculateDistance($centerLat, $centerLon, $regionLat, $regionLon)

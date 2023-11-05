@@ -69,15 +69,19 @@
                         {{ $message->message }}
 
                     </span>
-                    <span class="message-date">{{ $message->created_at }}</span>
+                    <span class="timestamp message-date" data-time="{{ $message->created_at }}"></span>
 
                 </span>
             </div>
         @endforeach
 
-        <form action="/submit_reply" method="post">
+        <form action="{{ route('msg_adm', ['user' => auth()->user()->id]) }}" method="post">
+            @csrf
             <div class="input-container">
-                <input type="text" placeholder="Type your message...">
+                <textarea id="messageInput" type="text" name="message" placeholder="Type your message..."
+                    style="word-wrap: break-word;
+                overflow-wrap: break-word;white-space: pre-line;text-align: left; border: none;"
+                    class="remove-border" oninput="autoResize()"></textarea>
                 <button type="submit">Send</button>
             </div>
 
@@ -140,6 +144,47 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
     </script>
+
+    <script>
+        const timestamps = document.querySelectorAll('.timestamp');
+
+        timestamps.forEach(timestamp => {
+            const timestampValue = timestamp.getAttribute('data-time');
+            const postTime = new Date(timestampValue);
+            const currentTime = new Date();
+
+            const timeDifference = currentTime - postTime;
+            const seconds = Math.floor(timeDifference / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+
+            let displayText;
+
+            if (days > 7) {
+                displayText = postTime.toLocaleDateString(); // Show the date if older than 7 days
+            } else if (days > 0) {
+                displayText = days + 'd ago';
+            } else if (hours > 0) {
+                displayText = hours + 'h ago';
+            } else if (minutes > 0) {
+                displayText = minutes + 'm ago';
+            } else {
+                displayText = seconds + 's ago';
+            }
+
+            timestamp.textContent = displayText;
+        });
+    </script>
+
+    <script>
+        function autoResize() {
+            var messageInput = document.getElementById('messageInput');
+            messageInput.style.height = 'auto';
+            messageInput.style.height = (messageInput.scrollHeight) + 'px';
+        }
+    </script>
+
 </body>
 
 </html>

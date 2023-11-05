@@ -324,7 +324,10 @@ class AdminController extends Controller
         $regions = Region::all();
         $amenities = Amenity::all();
 
-        return view('admin.pages.show_home', compact('home', 'counties', 'categories', 'regions', 'amenities'));
+        $selectedAmenities = AmenHome::where('home_id', $id)->pluck('id')->toArray();
+
+
+        return view('admin.pages.show_home', compact('home', 'counties', 'categories', 'regions', 'amenities', 'selectedAmenities'));
     }
 
     public function delete_home($id)
@@ -341,7 +344,7 @@ class AdminController extends Controller
 
     public function update_home(Request $request, $home)
     {
-        $homme = Home::find($home);
+        $homme = Home::findOrFail($home);
 
         $homme->house_name = $request->input('house_name');
 
@@ -445,7 +448,7 @@ class AdminController extends Controller
 
         $homme->save();
 
-        return redirect('view_homes')->with('message', 'Home Successfully Updated!');
+        return redirect()->back()->with('message', 'Home Successfully Updated!');
     }
 
     public function sent_applications()
@@ -647,9 +650,39 @@ class AdminController extends Controller
     }
 
 
+
+
     public function messages()
     {
         $counties = County::all();
-        return view('admin.pages.messages', compact('counties'));
+        $admin = User::where('name', 'Admin')->first();
+
+        $messages = Message::where('receipient_name', 'Admin')->get();
+
+
+        return view('admin.pages.messages', compact('counties', 'messages'));
+    }
+
+    public function adm_reply(Request $request, $user)
+    {
+        $newMessage = new Message();
+
+        $newMessage->sender_id =  auth()->user()->id;
+        $newMessage->sender_name =  auth()->user()->name;
+
+        $newMessage->receipient_id =  $user;
+        $newMessage->receipient_name = User::Where('id', $user)->value('name');
+
+        $newMessage->message = $request->input('message');
+
+        $newMessage->save();
+
+        if ($newMessage) {
+            // Redirect with success message
+            return redirect()->back()->with('message_type', 'success')->with('message', 'Message sent successful!');
+        } else {
+            // Redirect back with error message
+            return redirect()->back()->with('message_type', 'error')->with('message', 'An Error Occurred try again.');
+        }
     }
 }

@@ -65,32 +65,54 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>User ID</th>
                             <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>ID Number</th>
-                            <th>Home ID</th>
-                            <th>Thumbnail</th>
-                            <th>Category</th>
-                            <th>Location</th>
-                            <th>Rent Duration (Months)</th>
-                            <th>Total Rent</th>
-                            <th>Available Space</th>
-                            <th>Approve</th>
-                            <th>Decline</th>
+                            <th>Message</th>
+                            <th>Date</th>
+                            <td></td>
+                            <td></td>
 
                         </tr>
                     </thead>
+                    @foreach ($messages as $message)
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span>{{ $message->sender_name }}</span>
+                                </td>
+                                <td>
+                                    <span
+                                        style="word-wrap: break-word;
+                                        overflow-wrap: break-word;white-space: pre-line;text-align: left;">{{ $message->message }}</span>
+                                </td>
+                                <td>
+                                    <span class="timestamp" data-time="{{ $message->created_at }}"></span>
+                                </td>
 
-                    <tbody>
-                        <tr>
-                            <td>
-                                <span></span>
-                            </td>
+                                <td>
+                                    <span>
+                                        <button id="replyButton" class="btn btn-success"
+                                            onclick="toggleForm()">Reply</button>
+                                    </span>
+                                    <div id="replyForm" style="display: none;">
+                                        <form method="post"
+                                            action="{{ route('adm_reply', ['user' => $message->sender_id]) }}">
+                                            @csrf
+                                            <textarea id="messageInput" name="message" placeholder="Type your message" oninput="autoResize()"></textarea>
+                                            <button type="submit" class="btn btn-success"
+                                                id="submitButton">Send</button>
+
+                                        </form>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="{{ route('message_delete', ['msg' => $message->id]) }}">
+                                        <button class="btn btn-danger" type="button">Delete</button></a>
+                                </td>
 
 
-                    </tbody>
+                            </tr>
+                        </tbody>
+                    @endforeach
                 </table>
                 <div class="dropdown-divider"></div>
 
@@ -161,6 +183,55 @@
             }
         });
     </script>
+
+    <script>
+        const timestamps = document.querySelectorAll('.timestamp');
+
+        timestamps.forEach(timestamp => {
+            const timestampValue = timestamp.getAttribute('data-time');
+            const postTime = new Date(timestampValue);
+            const currentTime = new Date();
+
+            const timeDifference = currentTime - postTime;
+            const seconds = Math.floor(timeDifference / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+
+            let displayText;
+
+            if (days > 7) {
+                displayText = postTime.toLocaleDateString(); // Show the date if older than 7 days
+            } else if (days > 0) {
+                displayText = days + 'd ago';
+            } else if (hours > 0) {
+                displayText = hours + 'h ago';
+            } else if (minutes > 0) {
+                displayText = minutes + 'm ago';
+            } else {
+                displayText = seconds + 's ago';
+            }
+
+            timestamp.textContent = displayText;
+        });
+    </script>
+
+    <script>
+        function toggleForm() {
+            var form = document.getElementById('replyForm');
+            form.style.display = (form.style.display === 'none') ? 'block' : 'none';
+
+            var button = document.getElementById('replyButton');
+            button.style.display = 'none'; // Hide the "Reply" button
+        }
+
+        function autoResize() {
+            var messageInput = document.getElementById('messageInput');
+            messageInput.style.height = 'auto';
+            messageInput.style.height = (messageInput.scrollHeight) + 'px';
+        }
+    </script>
+
 
 
 

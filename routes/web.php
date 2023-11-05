@@ -48,7 +48,9 @@ Route::post('/send_messages/send', 'App\Http\Controllers\HomeController@send_mes
 Route::get('/received_messages/view', 'App\Http\Controllers\HomeController@received_messages')->name('received_messages');
 Route::get('/message_delete/{msg}/delete', 'App\Http\Controllers\HomeController@message_delete')->name('message_delete');
 Route::post('/comm_post/post', 'App\Http\Controllers\HomeController@comm_post')->name('comm_post');
-
+Route::post('/msg_adm/{user}/message', 'App\Http\Controllers\HomeController@msg_adm')->name('msg_adm');
+Route::get('/search/search', 'App\Http\Controllers\HomeController@search')->name('search');
+Route::get('/filter/{category}/filter', 'App\Http\Controllers\HomeController@filter')->name('filter');
 
 Route::get('/blog', [HomeController::class, 'blog']);
 Route::get('/community', [HomeController::class, 'community']);
@@ -88,7 +90,8 @@ Route::get('/view_homes', [AdminController::class, 'view_homes']);
 Route::get('/show_home/{id}', [AdminController::class, 'show_home']);
 Route::get('/delete_home/{id}', [AdminController::class, 'delete_home']);
 
-Route::match(['GET', 'POST'], '/update_home/{home}', 'App\Http\Controllers\AdminController@update_home')->name('update_home');
+Route::post('/update_home/{home}/update', 'App\Http\Controllers\AdminController@update_home')->name('update_home');
+
 Route::get('/sent_applications/view', 'App\Http\Controllers\AdminController@sent_applications')->name('sent_applications');
 Route::get('/sent_appointments/view', 'App\Http\Controllers\AdminController@sent_appointments')->name('sent_appointments');
 
@@ -100,6 +103,4 @@ Route::get('/decline_appointment/{decline}/declined', 'App\Http\Controllers\Admi
 
 Route::get('/tenants/view', 'App\Http\Controllers\AdminController@tenants')->name('tenants');
 Route::get('/messages/view', 'App\Http\Controllers\AdminController@messages')->name('messages');
-
-
-// Message Controller
+Route::post('/adm_reply/{user}/reply', 'App\Http\Controllers\AdminController@adm_reply')->name('adm_reply');

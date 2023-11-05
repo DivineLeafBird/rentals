@@ -74,11 +74,78 @@ class HomeController extends Controller
                 return redirect('/');
             } elseif ($usertype == '1') {
                 $counties = County::all();
-                return view('admin.home', compact('counties'));
-            } else {
-                $slideshows = Slider::all();
+
                 $homes = Home::all();
-                return view('home.userpage', compact('slideshows', 'homes'));
+                $tenants = Tenant::all();
+
+                $pend_app = Application::Where('application_status', 'pending')->get();
+
+                $pend_apt = Schedule::Where('application_status', 'pending')->get();
+
+                // Fetch all unique home IDs from the Tenants table
+                $uniqueHomeIds = Tenant::select('home_id')->distinct()->pluck('home_id');
+
+                $totalRevenue = 0;
+
+                foreach ($uniqueHomeIds as $homeId) {
+                    $home = Home::find($homeId);
+
+                    if ($home) {
+                        $revenueForHome = 0;
+
+                        $tenants = Tenant::where('home_id', $homeId)->get();
+
+                        foreach ($tenants as $tenant) {
+                            $rentalDuration = $tenant->rental_duration;
+                            $monthlyPrice = $home->rent_price;
+                            $revenueForHome += $rentalDuration * $monthlyPrice;
+                        }
+
+                        $totalRevenue += $revenueForHome;
+                    }
+                }
+
+
+                return view('admin.home', compact('counties', 'homes', 'tenants', 'pend_app', 'pend_apt', 'totalRevenue'));
+            } else {
+
+                $slideshows = Slider::all();
+                $homes = Home::paginate(5);
+
+                // Randomly pick one home
+                $randomHome = Home::inRandomOrder()->first();
+
+                $amenityIcons = [
+
+                    'Free Parking' => 'bi bi-p-circle icons',
+                    'Top Security' => 'bi bi-shield-check icons',
+                    'Fresh Water' =>  'bi bi-droplet',
+                    'Free WiFi' =>    'bi bi-wifi icons',
+                    'Electricity' =>  'bi bi-lightning-charge',
+                    'Strong Signal' => 'bi bi-bar-chart',
+                    'Garden' =>        'bi bi-tree',
+                    'Lobby' =>         'bi bi-bricks',
+                    'Fan' =>           'bi bi-fan',
+                    'Spa' =>           'bi bi-brightness-alt-high',
+                    'Bar' =>           'bi bi-cup-straw',
+                    'Airport logistics' => 'bi bi-airplane icons',
+                ];
+
+                // Fetch amenities for the randomly picked home
+                $amenitiesrand = AmenHome::where('home_id', $randomHome->id)->get();
+
+                $images = Imageshome::Where('home_id', $randomHome->id)->get();
+
+                // Fetch amenities for each home
+                $amenities = []; // Initialize an empty array
+
+                foreach ($homes as $home) {
+                    $amenities[$home->id] = AmenHome::where('home_id', $home->id)->get();
+                }
+
+
+
+                return view('home.userpage', compact('slideshows', 'homes', 'amenityIcons', 'amenities', 'randomHome', 'amenitiesrand', 'images'));
             }
         } else {
             return redirect('/login');
@@ -419,6 +486,49 @@ class HomeController extends Controller
             return redirect()->back()->with('message_type', 'error')->with('message', 'An Error Occurred try again.');
         }
     }
+
+    public function msg_adm(Request $request, $user)
+    {
+        $newMessage = new Message();
+
+        $admin = User::Where('usertype', 1)->first();
+
+        $newMessage->sender_id = $user;
+        $newMessage->sender_name = User::Where('id', $user)->value('name');
+
+        $newMessage->receipient_id = $admin->id;
+        $newMessage->receipient_name = $admin->name;
+
+        $newMessage->message = $request->input('message');
+
+        $newMessage->save();
+
+        if ($newMessage) {
+            // Redirect with success message
+            return redirect()->back()->with('message_type', 'success')->with('message', 'Message Sent successfully!');
+        } else {
+            // Redirect back with error message
+            return redirect()->back()->with('message_type', 'error')->with('message', 'An Error Occurred try again.');
+        }
+    }
+
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $homes = Home::where('category_name', 'like', "%$query%")->orWhere('rent_price', 'like', "%$query%")->orWhere('region', 'like', "%$query%")->orWhere('county', 'like', "%$query%")->get();
+
+        return view('home.category', compact('homes',));
+    }
+
+    public function filter(Request $request, $category)
+    {
+        $homes = Home::Where('category_name', $category)->get();
+
+
+        return view('home.category', compact('homes',));
+    }
+
 
 
 

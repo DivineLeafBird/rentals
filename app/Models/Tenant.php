@@ -11,6 +11,6 @@ class Tenant extends Model
 
     public function home()
     {
-        return $this->belongsTo(Home::class, 'home_id');
+        return $this->belongsTo(Home::class, 'home_id', 'id');
     }
 }

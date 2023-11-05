@@ -67,17 +67,21 @@
             <!-- desktop -->
             <ul>
                 <li class="logo"><a href="/"><img src="/images/logo.svg" alt="logo"></a></li>
-                <li class="active"><a href="/">Home</a></li>
-                <li><a href="{{ url('category') }}">Category</a></li>
-                <li><a href="{{ url('blog') }}">Blog</a></li>
-                <li><a href="{{ url('community') }}">Community</a></li>
-                <li><a href="{{ url('about') }}">About</a></li>
-                <li><a href="{{ url('contact') }}">Contact</a></li>
+                <li class="{{ Request::is('/') ? 'active' : '' }}"><a href="/">Home</a></li>
+                <li class="{{ Request::is('category') ? 'active' : '' }}"><a href="{{ url('category') }}">Category</a>
+                </li>
+                <li class="{{ Request::is('blog') ? 'active' : '' }}"><a href="{{ url('blog') }}">Blog</a></li>
+                <li class="{{ Request::is('community') ? 'active' : '' }}"><a
+                        href="{{ url('community') }}">Community</a></li>
+                <li class="{{ Request::is('about') ? 'active' : '' }}"><a href="{{ url('about') }}">About</a></li>
+                <li class="{{ Request::is('contact') ? 'active' : '' }}"><a href="{{ url('contact') }}">Contact</a>
+                </li>
             </ul>
+
             <div class="nav-right">
                 <div class="search-container">
-                    <form action="#">
-                        <input type="text" placeholder="Search..." name="q">
+                    <form action="{{ route('search') }}" method="GET">
+                        <input type="text" placeholder="Search..." name="query">
                         <button type="submit"><i class="bi bi-search btn icons"></i></button>
                     </form>
                 </div>
@@ -85,15 +89,15 @@
                     @auth
 
                         <div class="notification">
-                            <span onclick="notifications()" href="" class="btn icons"> <i
-                                    class="bi bi-bell-fill"></i></span>
-                            <span id="noti-num"> <i class="bi bi-1-circle-fill"></i></span>
+                            <a href="{{ route('received_messages') }}"><span class="btn icons"> <i
+                                        class="bi bi-bell-fill"></i></span></a>
+                            {{-- <span id="noti-num"> <i class="bi bi-1-circle-fill"></i></span> --}}
 
-                            <div id="notificationDropdown" class="dropdown-content-noti">
+                            {{-- <div id="notificationDropdown" class="dropdown-content-noti">
                                 <a href="#"> New Arrivals</a>
                                 <hr>
                                 <a href="#">Coupons</a>
-                            </div>
+                            </div> --}}
 
                         </div>
 

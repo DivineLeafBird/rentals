@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Venpic Agencies</title>
-    <link rel="stylesheet" href="home/styles.css">
+    <link rel="stylesheet" href="/home/styles.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,48 +49,42 @@
     <section class="category-search">
 
         <div class="container-search">
-            <form action="" class="search-bar">
-                <input type="text" placeholder="Search home or a place" name="q">
-                <button type="submit"><i class="bi bi-search "></i></button>
+            <form action="{{ route('search') }}" class="search-bar" method="GET" onsubmit="showSearchResults(event)">
+                <input type="text" placeholder="Search home or a place" name="query">
+                <button type="submit" id="searchSubmit"><i class="bi bi-search "></i></button>
             </form>
 
         </div>
 
-        <div class="category-options">
-            <button class="category-opts-btn" style="background-color:#2c64f5; color: #fff">
-                All
-            </button>
+        @php
+            $categories = ['single-room', 'bed-sitter', '1-bedroom', '2-bedroom', '3-bedroom', '4-bedroom'];
 
-            <button class="category-opts-btn">
-                Single room
-            </button>
+            $currentCategory = request()->segment(2); // Extract the category from the URL
 
-            <button class="category-opts-btn">
-                Bed-sitter
-            </button>
+            function isActiveCategory($category)
+            {
+                return $category === request()->segment(2);
+            }
+        @endphp
 
-            <button class="category-opts-btn">
-                1-Bedroom
-            </button>
-
-            <button class="category-opts-btn">
-                2-Bedroom
-            </button>
-
-            <button class="category-opts-btn">
-                3-Bedroom
-            </button>
-
-            <button class="category-opts-btn">
-                4-Bedroom
-            </button>
-
-
+        <a style="text-decoration: none" href="{{ url('category') }}">
+            <div class="category-options">
+                <button class="category-opts-btn {{ empty($currentCategory) ? ' active' : '' }}">
+                    All
+                </button>
+        </a>
+        @foreach ($categories as $category)
+            <a style="text-decoration: none" href="{{ route('filter', ['category' => $category]) }}">
+                <button class="category-opts-btn{{ isActiveCategory($category) ? ' active' : '' }}">
+                    {{ ucfirst(str_replace('-', ' ', $category)) }}
+                </button>
+            </a>
+        @endforeach
 
         </div>
         <div class="filter-container">
             <div class="search-info">
-                <p>Search Resuts For:""</p>
+                {{-- <p id="searchfor" style="display: none;">Search Resuts For: <span id="searchTerm"></span></p> --}}
 
             </div>
             {{-- <div class="filter">
@@ -120,43 +114,51 @@
 
     {{-- search results --}}
     <section class="results">
-        <p style="font-size: 13px"> Showing items: {{ $homes->count() }}</p>
+        @php
+            $homesWithInventory = $homes->filter(function ($home) {
+                return $home->inventory > 0;
+            });
+        @endphp
+        <p style="font-size: 13px"> Showing items: {{ $homesWithInventory->count() }}</p>
 
         <div class="results-container">
 
             @foreach ($homes as $home)
-                <div class="result-card">
-                    <a style="text-decoration: none" href="{{ route('homeDetails', $home) }}">
-                        <img src="/thumbnails/{{ $home->thumbnail }}" alt=""> </a>
-                    <div>
-                        <p>{{ $home->short_desc }}</p>
-                    </div>
-                    <div>
-                        <span style="font-size: 16px;color:rgba(92, 86, 86, 0.815);"><i class="bi bi-geo-alt icons"></i>
-                            {{ $home->region }},{{ $home->county }}</span>
-                    </div>
-                    <div>
-                        <span class="bi bi-star-fill filter-icons icons "></span>
-                        <span class="bi bi-star-fill filter-icons icons "></span>
-                        <span class="bi bi-star-fill filter-icons icons"></span>
-                        <span class="bi bi-star-half filter-icons icons"></span>
-                        <span class="bi bi-star     filter-icons  icons"></span>
-                        <span style="font-size: 12px;"> 200 Reviews</span>
-                    </div>
-                    <div>
-                        <span style="font-size: 16px;color:#2c64f5;">{{ $home->category_name }}</span>
-                    </div>
-                    <p>
-                        @if ($home->discount != null)
-                            <span style="color:rgb(253, 29, 29); text-decoration:line-through;"><strong>KES
-                                    {{ $home->discount }}</strong></span>
-                        @endif
+                @if ($home->inventory > 0)
+                    <div class="result-card">
+                        <a style="text-decoration: none" href="{{ route('homeDetails', $home) }}">
+                            <img src="/thumbnails/{{ $home->thumbnail }}" alt=""> </a>
+                        <div>
+                            <p>{{ $home->short_desc }}</p>
+                        </div>
+                        <div>
+                            <span style="font-size: 16px;color:rgba(92, 86, 86, 0.815);"><i
+                                    class="bi bi-geo-alt icons"></i>
+                                {{ $home->region }},{{ $home->county }}</span>
+                        </div>
+                        <div>
+                            <span class="bi bi-star-fill filter-icons icons "></span>
+                            <span class="bi bi-star-fill filter-icons icons "></span>
+                            <span class="bi bi-star-fill filter-icons icons"></span>
+                            <span class="bi bi-star-half filter-icons icons"></span>
+                            <span class="bi bi-star     filter-icons  icons"></span>
+                            <span style="font-size: 12px;"> 200 Reviews</span>
+                        </div>
+                        <div>
+                            <span style="font-size: 16px;color:#2c64f5;">{{ $home->category_name }}</span>
+                        </div>
+                        <p>
+                            @if ($home->discount != null)
+                                <span style="color:rgb(253, 29, 29); text-decoration:line-through;"><strong>KES
+                                        {{ $home->discount }}</strong></span>
+                            @endif
 
-                        <span style="color:green;"><strong>KES {{ $home->rent_price }}</strong></span>
-                        <span style="color:#2c64f5;"><strong>/month</strong></span>
-                    </p>
+                            <span style="color:green;"><strong>KES {{ $home->rent_price }}</strong></span>
+                            <span style="color:#2c64f5;"><strong>/month</strong></span>
+                        </p>
 
-                </div>
+                    </div>
+                @endif
             @endforeach
 
 
@@ -227,7 +229,28 @@
         });
     </script>
 
-    <script src="home/main.js"></script>
+    {{-- <script>
+        function showSearchResults(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            const query = document.querySelector('input[name="query"]').value.trim();
+            const searchFor = document.getElementById('searchfor');
+            const searchTerm = document.getElementById('searchTerm');
+
+            if (query) {
+                searchFor.style.display = 'block'; // Show the search results paragraph
+                searchTerm.textContent = '"' + query + '"'; // Show the search term
+
+                // Here, you can make an AJAX call to fetch and display the search results dynamically
+                // Or perform any other logic to display the results
+            } else {
+                searchFor.style.display = 'none'; // Hide the search results if the search query is empty
+            }
+        }
+    </script> --}}
+
+
+    <script src="/home/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
     </script>

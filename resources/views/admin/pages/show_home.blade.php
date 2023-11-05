@@ -148,16 +148,17 @@
             <ul class="d-flex flex-column-reverse text-white todo-list todo-list-custom">
                 <li>
                     <div class="form-check form-check-primary">
-
                         @foreach ($amenities as $Amenity)
                             <label class="form-check-label" for="amenities"> </label>
-                            <input type="checkbox" name="amenities[]" multiple value="{{ $Amenity->id }}">
+                            <input type="checkbox" name="amenities[]" value="{{ $Amenity->id }}"
+                                {{ in_array($Amenity->id, $selectedAmenities) ? 'checked' : '' }}>
                             {{ $Amenity->name }}
                         @endforeach
                     </div>
                 </li>
             </ul>
         </div>
+
 
 
         <label for="thumbnail">Thumbnail :</label>
@@ -179,7 +180,6 @@
 
         <label for="short_desc">Short :</label>
         <div>
-            {{-- <input type="text" name="short_desc" id="short_desc" required value="{{ $home->short_desc }}"> --}}
             <div>
                 <textarea name="description" id="short_desc" required>{{ $home->short_desc }}</textarea>
             </div>
@@ -221,9 +221,6 @@
 
         <label for="rent_price"> Price :</label>
         <input type="number" name="rent_price" id="rent_price" required value="{{ $home->rent_price }}">
-
-        <label for="discount">Discount :</label>
-        <input type="number" name="discount" id="discount" value="{{ $home->discount }}">
 
         <label for="county">County :</label>
         <select name="county">

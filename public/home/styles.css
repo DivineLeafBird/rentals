@@ -1481,6 +1481,16 @@ footer {
     color: var(--blue-color);
 }
 
+.category-opts-btn:hover {
+    background-color: rgb(175, 174, 174);
+    color: var(--white-color);
+}
+
+.category-opts-btn.active {
+    background-color: var(--blue-color);
+    color: var(--white-color);
+}
+
 .filter-container {
     display: flex;
     align-items: center;
@@ -1943,4 +1953,13 @@ textarea {
 .about-section a {
     text-decoration: none;
     color: var(--light-black);
+}
+
+.remove-border:focus {
+    outline: none;
+    border: none;
+}
+
+.active {
+    color: var(--blue-color);
 }

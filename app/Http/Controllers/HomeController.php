@@ -33,35 +33,25 @@ class HomeController extends Controller
         $randomHome = Home::inRandomOrder()->first();
 
         $amenityIcons = [
-
-            'Free Parking' => 'bi bi-p-circle icons',
-            'Top Security' => 'bi bi-shield-check icons',
-            'Fresh Water' =>  'bi bi-droplet',
-            'Free WiFi' =>    'bi bi-wifi icons',
-            'Electricity' =>  'bi bi-lightning-charge',
-            'Strong Signal' => 'bi bi-bar-chart',
-            'Garden' =>        'bi bi-tree',
-            'Lobby' =>         'bi bi-bricks',
-            'Fan' =>           'bi bi-fan',
-            'Spa' =>           'bi bi-brightness-alt-high',
-            'Bar' =>           'bi bi-cup-straw',
-            'Airport logistics' => 'bi bi-airplane icons',
+            // Your amenity icons array here
         ];
 
-        // Fetch amenities for the randomly picked home
-        $amenitiesrand = AmenHome::where('home_id', $randomHome->id)->get();
+        $amenitiesrand = [];
+        $images = [];
 
-        $images = Imageshome::Where('home_id', $randomHome->id)->get();
+        if ($randomHome) {
+            $amenitiesrand = AmenHome::where('home_id', $randomHome->id)->get();
+            $images = Imageshome::where('home_id', $randomHome->id)->get();
+        }
 
-        // Fetch amenities for each home
-        $amenities = []; // Initialize an empty array
-
+        $amenities = [];
         foreach ($homes as $home) {
             $amenities[$home->id] = AmenHome::where('home_id', $home->id)->get();
         }
 
         return view('home.userpage', compact('slideshows', 'homes', 'amenityIcons', 'amenities', 'randomHome', 'amenitiesrand', 'images'));
     }
+
 
     public function redirect()
     {
@@ -116,29 +106,18 @@ class HomeController extends Controller
                 $randomHome = Home::inRandomOrder()->first();
 
                 $amenityIcons = [
-
-                    'Free Parking' => 'bi bi-p-circle icons',
-                    'Top Security' => 'bi bi-shield-check icons',
-                    'Fresh Water' =>  'bi bi-droplet',
-                    'Free WiFi' =>    'bi bi-wifi icons',
-                    'Electricity' =>  'bi bi-lightning-charge',
-                    'Strong Signal' => 'bi bi-bar-chart',
-                    'Garden' =>        'bi bi-tree',
-                    'Lobby' =>         'bi bi-bricks',
-                    'Fan' =>           'bi bi-fan',
-                    'Spa' =>           'bi bi-brightness-alt-high',
-                    'Bar' =>           'bi bi-cup-straw',
-                    'Airport logistics' => 'bi bi-airplane icons',
+                    // Your amenity icons array here
                 ];
 
-                // Fetch amenities for the randomly picked home
-                $amenitiesrand = AmenHome::where('home_id', $randomHome->id)->get();
+                $amenitiesrand = [];
+                $images = [];
 
-                $images = Imageshome::Where('home_id', $randomHome->id)->get();
+                if ($randomHome) {
+                    $amenitiesrand = AmenHome::where('home_id', $randomHome->id)->get();
+                    $images = Imageshome::where('home_id', $randomHome->id)->get();
+                }
 
-                // Fetch amenities for each home
-                $amenities = []; // Initialize an empty array
-
+                $amenities = [];
                 foreach ($homes as $home) {
                     $amenities[$home->id] = AmenHome::where('home_id', $home->id)->get();
                 }

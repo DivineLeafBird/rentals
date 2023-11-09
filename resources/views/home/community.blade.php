@@ -127,7 +127,7 @@
                 <div class="community-post-card">
                     <div class="card-header">
                         <div>
-                            <img src="images/slider.png" alt="">
+                            <img src="images/pers1.png" alt="">
                         </div>
 
                         <div style="transform:translateX(-80px)">
@@ -143,8 +143,10 @@
                     <div class="card-msg">
                         <h6 style="font-weight: 550; color:rgb(131, 126, 126);">{{ $post->title }}</h6>
                         <span style="font-size: 14px">{{ $post->message }}</span> <br>
-                        <span><img style=" object-fit: cover; width: 80px; height: 80px; border-radius:5px;"
-                                src="/commpstimg/{{ $post->image }}" alt=""></span>
+                        @if ($post->image)
+                            <span><img style=" object-fit: cover; width: 80px; height: 80px; border-radius:5px;"
+                                    src="/commpstimg/{{ $post->image }}" alt=""></span>
+                        @endif
                     </div>
                     {{-- <div class="card-stats">
                     <span><i style="font-size: 20px; color:rgb(168, 163, 163); cursor: pointer;"

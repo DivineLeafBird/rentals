@@ -448,7 +448,7 @@ class AdminController extends Controller
 
         $homme->save();
 
-        return redirect()->back()->with('message', 'Home Successfully Updated!');
+        return view('admin.pages.show_home')->with('message', 'Home Successfully Updated!');
     }
 
     public function sent_applications()

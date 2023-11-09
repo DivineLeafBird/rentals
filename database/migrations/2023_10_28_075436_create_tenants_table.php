@@ -27,8 +27,8 @@ return new class extends Migration
             $table->string('lease_expiry');
             $table->string('tenancy_status')->default('Active');
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('home_id')->references('id')->on('homes');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('home_id')->references('id')->on('homes')->onDelete('cascade');
 
             $table->timestamps();
         });

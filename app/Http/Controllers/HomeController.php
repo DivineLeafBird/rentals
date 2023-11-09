@@ -33,7 +33,18 @@ class HomeController extends Controller
         $randomHome = Home::inRandomOrder()->first();
 
         $amenityIcons = [
-            // Your amenity icons array here
+            'Free Parking' => 'bi bi-p-circle icons',
+            'Top Security' => 'bi bi-shield-check icons',
+            'Fresh Water' =>  'bi bi-droplet',
+            'Free WiFi' =>    'bi bi-wifi icons',
+            'Electricity' =>  'bi bi-lightning-charge',
+            'Strong Signal' => 'bi bi-bar-chart',
+            'Garden' =>        'bi bi-tree',
+            'Lobby' =>         'bi bi-bricks',
+            'Fan' =>           'bi bi-fan',
+            'Spa' =>           'bi bi-brightness-alt-high',
+            'Bar' =>           'bi bi-cup-straw',
+            'Airport logistics' => 'bi bi-airplane icons',
         ];
 
         $amenitiesrand = [];
@@ -106,7 +117,18 @@ class HomeController extends Controller
                 $randomHome = Home::inRandomOrder()->first();
 
                 $amenityIcons = [
-                    // Your amenity icons array here
+                    'Free Parking' => 'bi bi-p-circle icons',
+                    'Top Security' => 'bi bi-shield-check icons',
+                    'Fresh Water' =>  'bi bi-droplet',
+                    'Free WiFi' =>    'bi bi-wifi icons',
+                    'Electricity' =>  'bi bi-lightning-charge',
+                    'Strong Signal' => 'bi bi-bar-chart',
+                    'Garden' =>        'bi bi-tree',
+                    'Lobby' =>         'bi bi-bricks',
+                    'Fan' =>           'bi bi-fan',
+                    'Spa' =>           'bi bi-brightness-alt-high',
+                    'Bar' =>           'bi bi-cup-straw',
+                    'Airport logistics' => 'bi bi-airplane icons',
                 ];
 
                 $amenitiesrand = [];
@@ -541,10 +563,11 @@ class HomeController extends Controller
         $newPost->message = $request->input('topic');
 
         $image = $request->image;
-        $imagename = time() . '.' . $image->getClientOriginalExtension();
-        $request->image->move('commpstimg', $imagename);
-        $newPost->image = $imagename;
-
+        if ($image) {
+            $imagename = time() . '.' . $image->getClientOriginalExtension();
+            $request->image->move('commpstimg', $imagename);
+            $newPost->image = $imagename;
+        }
 
         $newPost->save();
 

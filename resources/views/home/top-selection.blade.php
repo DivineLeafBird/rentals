@@ -10,9 +10,9 @@
                                 src="/thumbnails/{{ $home->thumbnail }}" alt=""></a>
 
                         <div class="place-rating">
-                            <strong style="padding-left: 5px;"> {{ $home->house_name }},
-                                {{ $home->county }}</strong><span style="float:right;"></span>
-                            <div class="rating">
+                            <strong style="padding-left: 65px;"> {{ $home->house_name }}
+                            </strong><span style="float:right;"></span>
+                            {{-- <div class="rating">
                                 <span class="bi bi-star-fill icons"></span>
                                 <span class="bi bi-star-fill icons"></span>
                                 <span class="bi bi-star-fill icons"></span>
@@ -23,12 +23,12 @@
                                 <div>
                                     <p style="font-size: 12px; text-align: center;">(1247) reviews</p>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
 
                         <div class="place-rating">
                             <p style="padding-left: 25px; padding-top: 20px; "><i class="bi bi-geo-alt icons"></i> <i
-                                    style="color: gray;">{{ $home->region }},{{ $home->county }}</i>
+                                    style="color: gray;">{{ $home->region }},{{ $home->county }}</i><br>
                                 {{ $home->distance_county_center }} km from Town center</p><span
                                 style="float:right;"></span>
                         </div>

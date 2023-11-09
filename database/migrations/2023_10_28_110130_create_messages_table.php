@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('receipient_name');
             $table->text('message');
 
-            $table->foreign('sender_id')->references('id')->on('users');
-            $table->foreign('receipient_id')->references('id')->on('users');
+            $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('receipient_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

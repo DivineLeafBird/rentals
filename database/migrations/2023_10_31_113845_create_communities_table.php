@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('title');
             $table->text('message');
-            $table->string('image');
+            $table->string('image')->nullable();
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

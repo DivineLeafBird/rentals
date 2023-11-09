@@ -148,6 +148,8 @@
                                             @elseif ($application->application_status == 'Declined')
                                                 <a class="btn btn-success"
                                                     href="{{ route('approve_application', ['approve' => $application->id]) }}">Approve</a>
+                                            @elseif ($application->application_status == 'Paid')
+                                                <span>Paid</span>
                                             @endif
                                         @endif
 

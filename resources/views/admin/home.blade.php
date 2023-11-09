@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -24,102 +25,100 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-  </head>
+</head>
 
 
 
-  
-  <body>
+
+<body>
     <div class="container-scroller">
-      <!-- partial:partials/_sidebar.html -->
-            @include('admin.sidebar')
-      <!-- partial -->
-            @include('admin.header')
+        <!-- partial:partials/_sidebar.html -->
+        @include('admin.sidebar')
         <!-- partial -->
-            @include('admin.body')
-    <!-- container-scroller -->
+        @include('admin.header')
+        <!-- partial -->
+        @include('admin.body')
+        <!-- container-scroller -->
 
-    <div class="main-panel">
-      <div class="content-wrapper"> 
+        <div class="main-panel">
+            <div class="content-wrapper">
 
-      @if (session()->has('message'))
+                @if (session()->has('message'))
+                    <div class="alert alert-success" style="transform: translateY(20px);">
 
-      <div class="alert alert-success" style="transform: translateY(20px);">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
+                        {{ session()->get('message') }}
 
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
-        {{ session()->get('message') }}
-
-      </div>
-      
-      @endif
-
-
-    <!-- plugins:js -->
-    <script src="admin/assets/vendors/js/vendor.bundle.base.js"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page -->
-    <script src="admin/assets/vendors/chart.js/Chart.min.js"></script>
-    <script src="admin/assets/vendors/progressbar.js/progressbar.min.js"></script>
-    <script src="admin/assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
-    <script src="admin/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="admin/assets/vendors/owl-carousel-2/owl.carousel.min.js"></script>
-    <!-- End plugin js for this page -->
-    <!-- inject:js -->
-    <script src="admin/assets/js/off-canvas.js"></script>
-    <script src="admin/assets/js/hoverable-collapse.js"></script>
-    <script src="admin/assets/js/misc.js"></script>
-    <script src="admin/assets/js/settings.js"></script>
-    <script src="admin/assets/js/todolist.js"></script>
-    <!-- endinject -->
-    <!-- Custom js for this page -->
-    <script src="admin/assets/js/dashboard.js"></script>
-    <!-- End custom js for this page -->
-
-    <script>
-      var logoutTimer;
-
-        function startLogoutTimer() {
-          var timeoutDuration = 30 * 60 * 1000; // Set timeout
-
-          logoutTimer = setTimeout(function() {
-            // Perform AJAX logout request or redirect to the logout endpoint
-            window.location.href = '/admlogout';
-          }, timeoutDuration);
-        }
-
-        function resetLogoutTimer() {
-          clearTimeout(logoutTimer);
-          startLogoutTimer();
-        }
-
-        // Calls the resetLogoutTimer() function whenever the user performs any activity, such as clicking a button or making an AJAX request.
-        document.addEventListener('click', function() {
-          if (document.visibilityState === "visible") {
-            resetLogoutTimer();
-          }
-        });
-
-        // Starts the logout timer initially when the page loads
-        if (document.visibilityState === "visible") {
-          startLogoutTimer();
-        }
-
-        // Listens for changes in the visibility state
-        document.addEventListener("visibilitychange", function() {
-          if (document.visibilityState === "visible") {
-            // Page is now active
-            startLogoutTimer();
-          } else {
-            // Page is not active
-            clearTimeout(logoutTimer);
-          }
-        });
-
-  </script>
+                    </div>
+                @endif
 
 
+                <!-- plugins:js -->
+                <script src="admin/assets/vendors/js/vendor.bundle.base.js"></script>
+                <!-- endinject -->
+                <!-- Plugin js for this page -->
+                <script src="admin/assets/vendors/chart.js/Chart.min.js"></script>
+                <script src="admin/assets/vendors/progressbar.js/progressbar.min.js"></script>
+                <script src="admin/assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
+                <script src="admin/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+                <script src="admin/assets/vendors/owl-carousel-2/owl.carousel.min.js"></script>
+                <!-- End plugin js for this page -->
+                <!-- inject:js -->
+                <script src="admin/assets/js/off-canvas.js"></script>
+                <script src="admin/assets/js/hoverable-collapse.js"></script>
+                <script src="admin/assets/js/misc.js"></script>
+                <script src="admin/assets/js/settings.js"></script>
+                <script src="admin/assets/js/todolist.js"></script>
+                <!-- endinject -->
+                <!-- Custom js for this page -->
+                <script src="admin/assets/js/dashboard.js"></script>
+                <!-- End custom js for this page -->
 
-    <script src="{{ asset('admin/assets/logout.js') }}"></script>
+                <script>
+                    var logoutTimer;
 
-  </body>
+                    function startLogoutTimer() {
+                        var timeoutDuration = 30 * 60 * 1000; // Set timeout
+
+                        logoutTimer = setTimeout(function() {
+                            // Perform AJAX logout request or redirect to the logout endpoint
+                            window.location.href = '/admlogout';
+                        }, timeoutDuration);
+                    }
+
+                    function resetLogoutTimer() {
+                        clearTimeout(logoutTimer);
+                        startLogoutTimer();
+                    }
+
+                    // Calls the resetLogoutTimer() function whenever the user performs any activity, such as clicking a button or making an AJAX request.
+                    document.addEventListener('click', function() {
+                        if (document.visibilityState === "visible") {
+                            resetLogoutTimer();
+                        }
+                    });
+
+                    // Starts the logout timer initially when the page loads
+                    if (document.visibilityState === "visible") {
+                        startLogoutTimer();
+                    }
+
+                    // Listens for changes in the visibility state
+                    document.addEventListener("visibilitychange", function() {
+                        if (document.visibilityState === "visible") {
+                            // Page is now active
+                            startLogoutTimer();
+                        } else {
+                            // Page is not active
+                            clearTimeout(logoutTimer);
+                        }
+                    });
+                </script>
+
+
+
+                <script src="{{ asset('admin/assets/logout.js') }}"></script>
+
+</body>
+
 </html>

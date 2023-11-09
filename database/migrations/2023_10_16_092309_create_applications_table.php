@@ -28,8 +28,8 @@ return new class extends Migration
             $table->string('more_info')->nullable();
             $table->string('application_status')->default('Pending');
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('home_id')->references('id')->on('homes');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('home_id')->references('id')->on('homes')->onDelete('cascade');
             $table->timestamps();
         });
     }

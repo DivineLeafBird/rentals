@@ -19,7 +19,7 @@ return new class extends Migration
             $table->String('home_name')->nullable();
             $table->String('original_name')->nullable();
 
-            $table->foreign('home_id')->references('id')->on('homes');
+            $table->foreign('home_id')->references('id')->on('homes')->onDelete('cascade');
             $table->timestamps();
         });
     }

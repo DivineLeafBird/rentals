@@ -130,7 +130,7 @@
                 </div>
 
                 <div class="amen-image-container">
-                    <img src="/images/slider.png" alt="Your Image">
+                    <img src="/thumbnails/{{ $data->thumbnail }}" alt="Your Image">
                 </div>
 
             </div>

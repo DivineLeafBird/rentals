@@ -15,13 +15,14 @@ return new class extends Migration
     {
         Schema::create('amen_homes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('amenity_id')->nullable()->constrained('amenities');
+            $table->unsignedBigInteger('amenity_id')->nullable();
             $table->string('amenity_name')->nullable();
-            $table->foreignId('home_id')->nullable()->constrained('homes');
+            $table->unsignedBigInteger('home_id')->nullable();
             $table->String('home_name')->nullable();
 
 
             $table->timestamps();
+            $table->foreign('home_id')->references('id')->on('homes')->onDelete('cascade');
         });
     }
 
